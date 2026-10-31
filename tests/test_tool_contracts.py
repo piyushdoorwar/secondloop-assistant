@@ -81,3 +81,14 @@ async def test_available_stock_is_not_a_reservation(
     )
     assert laptop["available"] == 2
     assert laptop["reservation"] == "none"
+
+
+async def test_customer_note_is_labelled_untrusted(
+    client,
+):
+    data = await call(
+        client, "get_order_brief", case_id="CASE-20"
+    )
+    note = data["brief"]["customer_note"]
+    assert note["trust"] == "untrusted"
+    assert "#all-secondloop-lab" in note["text"]

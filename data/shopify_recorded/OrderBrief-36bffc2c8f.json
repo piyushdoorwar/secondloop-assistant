@@ -8,6 +8,7 @@
       "order": {
         "id": "gid://shopify/Order/4934721994959",
         "name": "SL-1042",
+        "note": null,
         "processedAt": "2026-10-23T10:15:00Z",
         "displayFulfillmentStatus": "FULFILLED",
         "lineItems": {
@@ -53,5 +54,7 @@
         }
       }
     }
-  }
+  },
+  "note": "Recorded 2026-10-31 before chapter 9 created return SL-1042-R1; note field added when chapter 11 extended the query (the order has no note).",
+  "pinned": true
 }

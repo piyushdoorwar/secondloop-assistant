@@ -29,6 +29,10 @@ def record(client, operation, document, variables):
     key = json.dumps(variables, sort_keys=True)
     name = hashlib.sha256(key.encode()).hexdigest()[:10]
     path = OUT / f"{operation}-{name}.json"
+    if path.exists() and json.loads(path.read_text()).get(
+        "pinned"
+    ):
+        return path
     path.write_text(
         json.dumps(
             {

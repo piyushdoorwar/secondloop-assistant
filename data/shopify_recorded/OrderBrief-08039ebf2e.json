@@ -8,6 +8,7 @@
       "order": {
         "id": "gid://shopify/Order/4934724059343",
         "name": "SL-1044",
+        "note": null,
         "processedAt": "2026-10-22T14:05:00Z",
         "displayFulfillmentStatus": "PARTIALLY_FULFILLED",
         "lineItems": {
