@@ -2,7 +2,10 @@
 
 from fastmcp import FastMCP
 
-from secondloop.mcp_server.server import case_brief
+from secondloop.mcp_server.server import (
+    case_brief,
+    permitted_case,
+)
 from secondloop.ops_client import get_json, ops_http
 
 draft = FastMCP("SecondLoop draft interface")
@@ -11,7 +14,10 @@ draft = FastMCP("SecondLoop draft interface")
 @draft.tool
 def get_order_brief(case_id: str) -> dict:
     """Get order data."""
-    brief, error = case_brief(case_id)
+    case, error = permitted_case(case_id)
+    brief, error = (
+        case_brief(case) if case else (None, error)
+    )
     if error:
         return {"error": error}
     return draft_shape(brief)
@@ -45,7 +51,10 @@ def draft_shape(brief) -> dict:
 @draft.tool
 async def get_replacement_context(case_id: str) -> dict:
     """Get stock and policy."""
-    brief, error = case_brief(case_id)
+    case, error = permitted_case(case_id)
+    brief, error = (
+        case_brief(case) if case else (None, error)
+    )
     if error:
         return {"error": error}
     async with ops_http() as http:

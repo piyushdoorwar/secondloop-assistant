@@ -1,5 +1,7 @@
 """The SecondLoop investigation server."""
 
+import logging
+
 from typing import Annotated
 
 import anyio
@@ -8,6 +10,12 @@ from pydantic import Field
 
 from secondloop.cases import load_cases
 from secondloop.cursors import open_cursor, seal
+from secondloop.identity import (
+    Denied,
+    authorize_case,
+    current_principal,
+)
+from secondloop.mcp_server.auth import build_auth
 from secondloop.ops_client import (
     OpsError,
     get_json,
@@ -22,8 +30,11 @@ from secondloop.shopify.orders import read_order_brief
 from secondloop.shopify.shop import read_timezone
 
 mcp = FastMCP(
-    "SecondLoop investigations", version="0.6.0"
+    "SecondLoop investigations",
+    version="0.8.0",
+    auth=build_auth(),
 )
+log = logging.getLogger("secondloop.mcp")
 CASES = load_cases()
 PAGE_SIZE = 3
 
@@ -31,11 +42,21 @@ CaseId = Annotated[str, Field(pattern=r"^CASE-\d{1,8}$")]
 Cursor = Annotated[str | None, Field(max_length=512)]
 
 
-def case_brief(case_id: str):
-    """Return (brief, None) or (None, error_code)."""
+def permitted_case(case_id, role="support_read"):
+    """Return (case, None) or (None, error_code)."""
     case = CASES.get(case_id)
     if case is None:
         return None, "case_not_found"
+    try:
+        authorize_case(current_principal(), case, role)
+    except Denied as denied:
+        log.info("denied %s: %s", case_id, denied)
+        return None, "case_not_found"
+    return case, None
+
+
+def case_brief(case):
+    """Return (brief, None) or (None, error_code)."""
     if case.order_id is None:
         return None, "order_not_linked"
     try:
@@ -60,7 +81,10 @@ def get_order_brief(case_id: CaseId) -> dict:
     DELIVERED lines. Does not decide return
     eligibility, reserve stock, or create anything.
     """
-    brief, error = case_brief(case_id)
+    case, error = permitted_case(case_id)
+    if error:
+        return failure(error)
+    brief, error = case_brief(case)
     if error:
         return failure(error)
     return ok(brief=brief.model_dump())
@@ -77,8 +101,10 @@ def list_candidate_orders(
     one yourself. Returns at most three orders; if
     has_more is true, pass next_cursor to see more.
     """
-    case = CASES.get(case_id)
-    if case is None or case.customer_id is None:
+    case, error = permitted_case(case_id)
+    if error:
+        return failure(error)
+    if case.customer_id is None:
         return failure("case_not_found")
     after = None
     if cursor:
@@ -121,8 +147,11 @@ async def get_replacement_context(
     stock is not a reservation. Does not reserve a unit
     or request a replacement.
     """
+    case, error = permitted_case(case_id)
+    if error:
+        return failure(error)
     brief, error = await anyio.to_thread.run_sync(
-        case_brief, case_id
+        case_brief, case
     )
     if error:
         return failure(error)
@@ -223,12 +252,14 @@ async def check_return_window(
     means a return may be proposed for approval; it is
     not an approval.
     """
+    case, error = permitted_case(case_id)
+    if error:
+        return failure(error)
     brief, error = await anyio.to_thread.run_sync(
-        case_brief, case_id
+        case_brief, case
     )
     if error:
         return failure(error)
-    case = CASES[case_id]
     line = next(
         (l for l in brief.lines if l.sku == sku), None
     )

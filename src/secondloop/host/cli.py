@@ -4,6 +4,7 @@ python -m secondloop.host.cli CASE-17
 """
 
 import asyncio
+import os
 import json
 import sys
 
@@ -55,4 +56,6 @@ async def main(case_id: str) -> None:
 
 
 if __name__ == "__main__":
+    os.environ.setdefault("SECONDLOOP_ENV", "dev")
+    os.environ.setdefault("SECONDLOOP_DEV_SUBJECT", "ben")
     asyncio.run(main(sys.argv[1]))

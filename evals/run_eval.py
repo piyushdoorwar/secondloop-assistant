@@ -6,6 +6,7 @@ Needs ANTHROPIC_API_KEY. Results go to evals/results/.
 """
 
 import argparse
+import os
 import asyncio
 import json
 import pathlib
@@ -110,6 +111,8 @@ async def evaluate(variant, cases, repeats):
 
 
 def main():
+    os.environ.setdefault("SECONDLOOP_ENV", "dev")
+    os.environ.setdefault("SECONDLOOP_DEV_SUBJECT", "ben")
     parser = argparse.ArgumentParser()
     parser.add_argument("variant")
     parser.add_argument(

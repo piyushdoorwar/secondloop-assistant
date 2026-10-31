@@ -12,10 +12,12 @@ dependencies = [
   "pydantic==2.14.2",
   "PyJWT==2.15.1",
   "opentelemetry-sdk==1.45.2",
+  "psycopg[binary]==3.3.6",
+  "uvicorn==0.38.0",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest==9.2.0", "uvicorn==0.38.0"]
+dev = ["pytest==9.2.0"]
 
 [build-system]
 requires = ["setuptools>=75"]

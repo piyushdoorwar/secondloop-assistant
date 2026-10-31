@@ -1,0 +1,12 @@
+[
+  {"sub": "ben", "name": "Ben", "stores": ["secondloop-lab"],
+   "roles": ["support_read"]},
+  {"sub": "mira", "name": "Mira", "stores": ["secondloop-lab"],
+   "roles": ["support_read", "return_request"]},
+  {"sub": "leena", "name": "Leena", "stores": ["secondloop-lab"],
+   "roles": ["support_read", "return_approve"]},
+  {"sub": "ravi", "name": "Ravi", "stores": ["secondloop-lab"],
+   "roles": ["ops"]},
+  {"sub": "ana", "name": "Ana", "stores": ["northwind-dev"],
+   "roles": ["support_read", "return_request"]}
+]
