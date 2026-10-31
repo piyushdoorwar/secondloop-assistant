@@ -28,6 +28,17 @@ AUDIENCE = "secondloop-console"
 INSTALLATION = "secondloop-lab/SecondLoop Assistant"
 
 
+def signing_key(raw: str):
+    jwks = os.environ.get("OIDC_JWKS_URI")
+    if jwks:
+        return (
+            jwt.PyJWKClient(jwks)
+            .get_signing_key_from_jwt(raw)
+            .key
+        )
+    return os.environ["CONSOLE_PUBLIC_KEY"]
+
+
 def approver(authorization: str = Header()):
     scheme, _, raw = authorization.partition(" ")
     if scheme.lower() != "bearer":
@@ -35,7 +46,7 @@ def approver(authorization: str = Header()):
     try:
         claims = jwt.decode(
             raw,
-            os.environ["CONSOLE_PUBLIC_KEY"],
+            signing_key(raw),
             algorithms=["RS256"],
             audience=AUDIENCE,
             issuer=os.environ["OIDC_ISSUER"],
