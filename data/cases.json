@@ -1,0 +1,30 @@
+[
+  {
+    "case_id": "CASE-17",
+    "store_id": "secondloop-lab",
+    "shop": "secondloop-lab.myshopify.com",
+    "order_id": "gid://shopify/Order/4934721994959",
+    "order_ref": "SL-1042"
+  },
+  {
+    "case_id": "CASE-18",
+    "store_id": "secondloop-lab",
+    "shop": "secondloop-lab.myshopify.com",
+    "order_id": "gid://shopify/Order/4934724059343",
+    "order_ref": "SL-1044"
+  },
+  {
+    "case_id": "CASE-19",
+    "store_id": "secondloop-lab",
+    "shop": "secondloop-lab.myshopify.com",
+    "order_id": "gid://shopify/Order/4934724092111",
+    "order_ref": "SL-1045"
+  },
+  {
+    "case_id": "CASE-20",
+    "store_id": "secondloop-lab",
+    "shop": "secondloop-lab.myshopify.com",
+    "order_id": "gid://shopify/Order/4934724190415",
+    "order_ref": "SL-1046"
+  }
+]

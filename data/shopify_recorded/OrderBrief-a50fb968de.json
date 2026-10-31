@@ -1,0 +1,34 @@
+{
+  "operation": "OrderBrief",
+  "variables": {
+    "id": "gid://shopify/Order/4934724190415"
+  },
+  "response": {
+    "data": {
+      "order": {
+        "id": "gid://shopify/Order/4934724190415",
+        "name": "SL-1046",
+        "processedAt": "2026-10-25T16:50:00Z",
+        "displayFulfillmentStatus": "FULFILLED",
+        "lineItems": {
+          "nodes": [
+            {
+              "sku": "CHG-65-C",
+              "quantity": 2,
+              "currentQuantity": 2
+            }
+          ]
+        },
+        "fulfillments": [
+          {
+            "displayStatus": "DELIVERED",
+            "deliveredAt": "2026-10-28T11:30:00Z"
+          }
+        ],
+        "returns": {
+          "nodes": []
+        }
+      }
+    }
+  }
+}
