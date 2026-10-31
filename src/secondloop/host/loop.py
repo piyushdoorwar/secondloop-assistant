@@ -3,6 +3,8 @@
 import json
 from dataclasses import dataclass, field
 
+from secondloop.telemetry import safe, tracer
+
 HOST_ERRORS = {
     "tool_not_offered",
     "call_budget_exceeded",
@@ -45,8 +47,41 @@ async def run(
     allowed,
     budget=Budget(),
     system="",
+    case_id=None,
 ):
     """Answer one question with the allowed tools."""
+    with tracer.start_as_current_span(
+        "case.investigate",
+        attributes=safe({"app.case_id": case_id}),
+    ) as span:
+        out = await _run(
+            model,
+            client,
+            question,
+            allowed,
+            budget,
+            system,
+        )
+        span.set_attributes(
+            safe(
+                {
+                    "app.result": out.stop,
+                    "app.calls": len(out.calls),
+                    "gen_ai.usage.input_tokens": out.usage[
+                        "input"
+                    ],
+                    "gen_ai.usage.output_tokens": out.usage[
+                        "output"
+                    ],
+                }
+            )
+        )
+        return out
+
+
+async def _run(
+    model, client, question, allowed, budget, system
+):
     catalog = await client.list_tools()
     tools = [
         to_model_tool(t)
@@ -61,9 +96,35 @@ async def run(
     out = Transcript()
     while out.turns < budget.max_turns:
         out.turns += 1
-        reply = await model.respond(
-            system, tools, messages
-        )
+        with tracer.start_as_current_span(
+            "model.turn",
+            attributes=safe({"app.turn": out.turns}),
+        ) as turn:
+            reply = await model.respond(
+                system, tools, messages
+            )
+            turn.set_attributes(
+                safe(
+                    {
+                        "gen_ai.request.model": getattr(
+                            model, "model", None
+                        ),
+                        "gen_ai.usage.input_tokens": reply[
+                            "usage"
+                        ][
+                            "input"
+                        ],
+                        "gen_ai.usage.output_tokens": reply[
+                            "usage"
+                        ][
+                            "output"
+                        ],
+                        "gen_ai.response.finish_reasons": reply[
+                            "stop_reason"
+                        ],
+                    }
+                )
+            )
         out.usage["input"] += reply["usage"]["input"]
         out.usage["output"] += reply["usage"]["output"]
         content = reply["content"]
@@ -99,6 +160,7 @@ async def run_call(client, block, offered, budget, out):
         data = host_error("call_budget_exceeded")
     elif name not in offered:
         data = host_error("tool_not_offered")
+        trace_refusal(name, "tool_not_offered")
     else:
         result = await client.call_tool(
             name, args, raise_on_error=False
@@ -124,3 +186,14 @@ async def run_call(client, block, offered, budget, out):
 
 def host_error(code: str) -> dict:
     return {"ok": False, "code": code}
+
+
+def trace_refusal(name, code):
+    from opentelemetry import trace
+
+    trace.get_current_span().add_event(
+        "tool.refused",
+        safe(
+            {"gen_ai.tool.name": name, "app.code": code}
+        ),
+    )

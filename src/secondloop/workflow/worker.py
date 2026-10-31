@@ -5,6 +5,8 @@ import uuid
 
 from psycopg.types.json import Jsonb
 
+from secondloop.telemetry import safe, tracer
+
 CLAIM = """
 UPDATE operations
 SET state = 'submitting',
@@ -77,6 +79,28 @@ def run_once(conn, vendors, checks) -> dict | None:
     op = claim(conn)
     if op is None:
         return None
+    with tracer.start_as_current_span(
+        f"operation.{op['kind']}",
+        attributes=safe(
+            {
+                "app.operation_id": op["id"],
+                "app.case_id": op["case_id"],
+            }
+        ),
+    ) as span:
+        result = _dispatch(conn, op, vendors, checks)
+        span.set_attributes(
+            safe(
+                {
+                    "app.result": result["state"],
+                    "app.code": result.get("detail"),
+                }
+            )
+        )
+        return result
+
+
+def _dispatch(conn, op, vendors, checks) -> dict:
     problem = checks(op)
     if problem:
         finish(

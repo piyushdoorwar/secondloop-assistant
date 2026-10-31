@@ -3,6 +3,7 @@
 import os
 
 import httpx2 as httpx
+from opentelemetry import propagate
 
 
 def ops_http() -> httpx.AsyncClient:
@@ -28,7 +29,9 @@ class OpsError(Exception):
 
 async def get_json(http, path: str) -> dict:
     try:
-        response = await http.get(path)
+        headers = {}
+        propagate.inject(headers)
+        response = await http.get(path, headers=headers)
     except httpx.TimeoutException:
         raise OpsError("ops_timeout")
     if response.status_code == 404:

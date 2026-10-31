@@ -1,0 +1,37 @@
+prompts/get investigate_damage  7 ms  
+  prompts/get investigate_damage  5 ms  
+resources/read  160 ms  
+  resources/read  158 ms  
+    GET /policies/damage  1 ms  
+    GET /policies/damage/{version}  1 ms  
+case.investigate  10922 ms  {'gen_ai.usage.input_tokens': 6813, 'app.result': 'end_turn'}
+  tools/list  2 ms  
+    tools/list  1 ms  
+  model.turn  2440 ms  {'gen_ai.usage.input_tokens': 1529}
+    anthropic.messages.create  2436 ms  {'gen_ai.usage.input_tokens': 1529}
+  tools/call get_order_brief  904 ms  {'gen_ai.tool.name': 'get_order_brief'}
+    tools/call get_order_brief  864 ms  {'gen_ai.tool.name': 'get_order_brief'}
+      shopify OrderBrief  844 ms  {'shopify.cost.actual': 12}
+  tools/call get_replacement_context  260 ms  {'gen_ai.tool.name': 'get_replacement_context'}
+    tools/call get_replacement_context  257 ms  {'gen_ai.tool.name': 'get_replacement_context'}
+      shopify OrderBrief  247 ms  {'shopify.cost.actual': 12}
+      GET /policies/damage  1 ms  
+      GET /policies/damage/{version}  1 ms  
+      GET /stock/{sku}  1 ms  
+      GET /stock/{sku}  1 ms  
+  model.turn  2765 ms  {'gen_ai.usage.input_tokens': 2346}
+    anthropic.messages.create  2764 ms  {'gen_ai.usage.input_tokens': 2346}
+  tools/call check_return_window  426 ms  {'gen_ai.tool.name': 'check_return_window'}
+    tools/call check_return_window  424 ms  {'gen_ai.tool.name': 'check_return_window'}
+      shopify OrderBrief  248 ms  {'shopify.cost.actual': 12}
+      shopify ShopTimezone  168 ms  {'shopify.cost.actual': 1}
+      GET /policies/damage  1 ms  
+      GET /policies/damage/{version}  1 ms  
+  tools/call check_return_window  392 ms  {'gen_ai.tool.name': 'check_return_window'}
+    tools/call check_return_window  391 ms  {'gen_ai.tool.name': 'check_return_window'}
+      shopify OrderBrief  218 ms  {'shopify.cost.actual': 12}
+      shopify ShopTimezone  168 ms  {'shopify.cost.actual': 1}
+      GET /policies/damage  1 ms  
+      GET /policies/damage/{version}  1 ms  
+  model.turn  3733 ms  {'gen_ai.usage.input_tokens': 2938}
+    anthropic.messages.create  3730 ms  {'gen_ai.usage.input_tokens': 2938}

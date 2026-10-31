@@ -5,6 +5,8 @@ import time
 
 import httpx2 as httpx
 
+from secondloop.telemetry import safe, tracer
+
 SHOP_PATTERN = r"[a-z0-9][a-z0-9-]*\.myshopify\.com"
 
 
@@ -80,6 +82,31 @@ class AdminClient:
     def query(
         self, document: str, variables: dict
     ) -> dict:
+        name = operation_name(document)
+        with tracer.start_as_current_span(
+            f"shopify {name}",
+            attributes=safe({"shopify.operation": name}),
+        ) as span:
+            data = self._query(document, variables)
+            if self.last_cost:
+                status = self.last_cost["throttleStatus"]
+                span.set_attributes(
+                    safe(
+                        {
+                            "shopify.cost.actual": self.last_cost[
+                                "actualQueryCost"
+                            ],
+                            "shopify.cost.available": status[
+                                "currentlyAvailable"
+                            ],
+                        }
+                    )
+                )
+            return data
+
+    def _query(
+        self, document: str, variables: dict
+    ) -> dict:
         response = self.http.post(
             self.endpoint,
             headers={
@@ -126,3 +153,10 @@ def admin_endpoint(shop: str, version: str) -> str:
         f"https://{check_shop(shop)}"
         f"/admin/api/{version}/graphql.json"
     )
+
+
+def operation_name(document: str) -> str:
+    found = re.search(
+        r"(?:query|mutation)\s+(\w+)", document
+    )
+    return found.group(1) if found else "anonymous"

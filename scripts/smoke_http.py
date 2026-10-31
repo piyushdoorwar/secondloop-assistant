@@ -33,7 +33,11 @@ if __name__ == "__main__":
     print("livez", httpx.get(f"{mcp_url}/livez").json())
     print("readyz", httpx.get(f"{mcp_url}/readyz").json())
     ben = asyncio.run(brief(mcp_url, token(idp, "ben")))
-    print("ben", ben["ok"], ben["brief"]["order_ref"],
-          ben["brief"]["open_returns"])
+    print(
+        "ben",
+        ben["ok"],
+        ben["brief"]["order_ref"],
+        ben["brief"]["open_returns"],
+    )
     ana = asyncio.run(brief(mcp_url, token(idp, "ana")))
     print("ana", ana)
