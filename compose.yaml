@@ -7,7 +7,7 @@ x-app: &app
   build: .
   env_file: .env
   environment: &env
-    DATABASE_URL: postgresql://secondloop:secondloop@db:5432/secondloop
+    DATABASE_URL: postgresql://app:app@db:5432/secondloop
     OPS_API_URL: http://ops-api:8000
     OIDC_ISSUER: http://idp:8000
     OIDC_JWKS_URI: http://idp:8000/.well-known/jwks.json
@@ -21,12 +21,12 @@ services:
   db:
     image: postgres:16
     environment:
-      POSTGRES_USER: secondloop
-      POSTGRES_PASSWORD: secondloop
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
       POSTGRES_DB: secondloop
     volumes: [pgdata:/var/lib/postgresql/data]
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "secondloop"]
+      test: ["CMD", "pg_isready", "-U", "app"]
       interval: 5s
     networks: [private]
 
