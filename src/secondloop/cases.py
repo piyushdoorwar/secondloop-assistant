@@ -12,8 +12,9 @@ class Case(BaseModel):
     case_id: str
     store_id: str
     shop: str
-    order_id: str
-    order_ref: str
+    order_id: str | None
+    order_ref: str | None
+    customer_id: str | None = None
 
 
 def load_cases(

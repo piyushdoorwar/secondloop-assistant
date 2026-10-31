@@ -33,6 +33,7 @@ async def test_curated_tools_are_marked_read_only():
         tools = await client.list_tools()
     assert {t.name for t in tools} == {
         "get_order_brief",
+        "list_candidate_orders",
         "get_replacement_context",
     }
     assert all(

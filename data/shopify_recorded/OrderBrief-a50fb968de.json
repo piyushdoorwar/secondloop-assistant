@@ -13,16 +13,27 @@
         "lineItems": {
           "nodes": [
             {
+              "id": "gid://shopify/LineItem/12018792267983",
               "sku": "CHG-65-C",
               "quantity": 2,
-              "currentQuantity": 2
+              "currentQuantity": 2,
+              "unfulfilledQuantity": 0
             }
           ]
         },
         "fulfillments": [
           {
             "displayStatus": "DELIVERED",
-            "deliveredAt": "2026-10-28T11:30:00Z"
+            "deliveredAt": "2026-10-28T11:30:00Z",
+            "fulfillmentLineItems": {
+              "nodes": [
+                {
+                  "lineItem": {
+                    "id": "gid://shopify/LineItem/12018792267983"
+                  }
+                }
+              ]
+            }
           }
         ],
         "returns": {

@@ -1,0 +1,333 @@
+{
+  "model": "claude-sonnet-5-5",
+  "variant": "draft",
+  "rows": [
+    {
+      "case": "replacement-status",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1549,
+        "output": 508
+      },
+      "answer": "I can't confirm that a replacement is on its way. Neither tool shows a replacement order, shipment, or approval for this case.\n\n- **Original order:** SL-1042 was a laptop (LAP-14-R) and a charger. It was fulfilled and delivered on 2026-10-26. There are no open returns.\n- **Policy:** The damage policy allows 30 days from delivery, so the window runs to about 2026-11-25. Replacements need approval, and I can't see one on file.\n- **Stock:** 2 LAP-14-R laptops are available and none are reserved. That means nothing is being held for Elena yet, though stock wouldn't block a replacement.\n\nElena's replacement probably hasn't been approved or created yet. Before telling her anything, check whether a replacement request exists and is waiting for approval. If it doesn't exist, one needs to be opened and approved within the window. Today's date isn't in the data, so I can't say how much of the window is left."
+    },
+    {
+      "case": "replacement-status",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1549,
+        "output": 450
+      },
+      "answer": "I can't confirm that a replacement is on its way. I found no record of one.\n\n- **Original order:** SL-1042 was fulfilled and delivered on 2026-10-26. It has one laptop (LAP-14-R) and one charger. There are no open returns.\n- **Replacement:** I didn't find a replacement order, shipment, or approval. Under the damage policy, a replacement needs approval. The policy has a 30-day window from delivery, which runs to about 2026-11-25.\n- **Stock:** 2 LAP-14-R laptops are available and none are reserved. Nothing appears to be held for Elena.\n\nNext, check whether a damage claim was filed and approved for Elena. If it was approved, a replacement still needs to be created. If no claim exists, she needs to file one within the window. Stock is available for either case."
+    },
+    {
+      "case": "replacement-status",
+      "run": 2,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1549,
+        "output": 498
+      },
+      "answer": "I can't confirm a replacement is on its way. Neither record shows a replacement order, shipment, or approval.\n\n- **Original order (SL-1042):** It was delivered on 2026-10-26. It includes one laptop (LAP-14-R) and one charger, and it has no open returns.\n- **Policy:** The damage replacement policy requires approval. Its 30-day window starts at delivery, so Elena is eligible until about 2026-11-25.\n- **Stock:** LAP-14-R has 2 units available and none reserved. Nothing appears to be held for her.\n\nUnless approval exists somewhere I can't see, the replacement hasn't been approved or created yet. If the case qualifies, someone needs to approve it and create the replacement. Stock isn't a blocker. I'd tell Elena it isn't shipped yet and that it's pending approval. I wouldn't give her a shipping date."
+    },
+    {
+      "case": "ambiguous-order",
+      "run": 0,
+      "pass": false,
+      "grade": {
+        "reported": [
+          false
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1263,
+        "output": 259
+      },
+      "answer": "I can't tell you where Elena's laptop is. Both lookups for CASE-21 failed with the error \"order_not_linked\". That means no order is attached to this case, so I got no shipment, tracking, or stock information.\n\nTo move forward, someone needs to link the order to the case. Her order number or the email on the order would let us do that. After it's linked, I can run the lookups again. If you already have the order ID, send it to me and I'll check whether it can be looked up another way."
+    },
+    {
+      "case": "ambiguous-order",
+      "run": 1,
+      "pass": false,
+      "grade": {
+        "reported": [
+          false
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1263,
+        "output": 259
+      },
+      "answer": "I can't tell you where Elena's laptop is. Both lookups for CASE-21 returned `order_not_linked`, so no order is attached to that case. That means I have no shipping or tracking data and no stock or policy information.\n\nNext steps:\n- Check that CASE-21 is the right case ID.\n- Find Elena's order number, either from the customer or by searching under her email or name. Then link it to the case.\n\nOnce the order is linked, I can run the lookups again."
+    },
+    {
+      "case": "ambiguous-order",
+      "run": 2,
+      "pass": false,
+      "grade": {
+        "reported": [
+          false
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1263,
+        "output": 268
+      },
+      "answer": "I can't tell you where Elena's laptop order is. Both lookups for CASE-21 returned the error \"order_not_linked\", which means no order is attached to this case. As a result, I have no tracking, shipping status, or stock information.\n\nTo fix this, someone needs to link the right order to the case. You could get the order number from Elena, or search for it using her email address or name. Once it's linked, I can check it again. If you already have the order ID, send it to me and I'll check whether it can be looked up another way."
+    },
+    {
+      "case": "partial-shipment",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 1278,
+        "output": 263
+      },
+      "answer": "Marcus's laptop doesn't have a delivery date because the order hasn't been delivered. Order SL-1044 was placed on 2026-10-22 and is **partially fulfilled**. The record shows no `delivered_at` value. It also doesn't say which item has shipped. The order has two lines: the laptop (LAP-14-R) and the headphones (HDP-BT-R). I can't tell from this data whether the laptop is in the shipped part or is still waiting.\n\nTo answer him, someone needs to check the fulfillment and tracking details for the laptop line. Until then, you can tell him that the order isn't marked as delivered."
+    },
+    {
+      "case": "partial-shipment",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 1278,
+        "output": 238
+      },
+      "answer": "Marcus's laptop doesn't have a delivery date because the order hasn't been delivered. Order SL-1044 was placed on 2026-10-22 and is **partially fulfilled**. `delivered_at` is empty. The order has the laptop (LAP-14-R) and the headphones (HDP-BT-R). The data doesn't show which of the two items has shipped.\n\nI can't confirm that the laptop has shipped or is in transit. To find out, check the fulfillment and tracking details in Shopify. Then you can tell Marcus the actual status."
+    },
+    {
+      "case": "partial-shipment",
+      "run": 2,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 1278,
+        "output": 256
+      },
+      "answer": "Marcus's laptop doesn't have a delivery date, because the order hasn't been delivered.\n\nOrder SL-1044 was placed on 2026-10-22 and is **partially fulfilled**. The record has no `delivered_at` value. It lists the laptop (LAP-14-R) and a Bluetooth headphone item (HDP-BT-R), one of each. The record doesn't show which line has shipped, so I can't tell whether the laptop is in the fulfilled part. Check the fulfillment and tracking details in Shopify to find out. Until then, tell Marcus there's no confirmed delivery."
+    },
+    {
+      "case": "existing-return",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1474,
+        "output": 439
+      },
+      "answer": "Priya's order SL-1045 has one HDP-BT-R headset. It was delivered on 2026-10-22, and the order **already shows 1 open return**. Before starting another one, check whether that return is hers and whether it's the one she means. Otherwise you may create a duplicate.\n\nThe applicable policy is the damage policy (v3). It has a 30-day window that starts at delivery, so the window closes around 2026-11-21. Any return needs approval. I can't see today's date, so confirm she's still inside the window.\n\nIf the return ends up as a replacement, stock isn't a problem. There are 6 units available and none reserved.\n\nNext step: look at the existing open return. If it's hers, continue with that one. If not, start a new request and send it for approval."
+    },
+    {
+      "case": "existing-return",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1474,
+        "output": 319
+      },
+      "answer": "Priya's order is SL-1045. It has 1 pair of headphones (SKU HDP-BT-R), delivered on 2026-10-22. **The order already has 1 open return**, so check whether that's the return she's asking about before you start another one. A duplicate could cause problems.\n\nIf a new return is still needed, these are the policy details:\n- The damage policy (v3) allows 30 days from delivery. That window runs through about 2026-11-21.\n- Returns under this policy need approval.\n- The same SKU has 6 units available, so a replacement is possible if one is approved.\n\nI can't see what the open return covers or what state it's in. Check that first."
+    },
+    {
+      "case": "existing-return",
+      "run": 2,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1474,
+        "output": 431
+      },
+      "answer": "Before you start a new return for Priya, note that order SL-1045 already has one open return. Check whether that return is for the headphones (SKU HDP-BT-R, quantity 1). If it is, a second return would duplicate it.\n\n- **Order:** It was fulfilled and delivered on 2026-10-22.\n- **Policy:** The damage policy (v3) allows returns for 30 days from delivery, so the window closes around 2026-11-21. I can't see today's date, so confirm she's still inside it.\n- **Approval:** A return under this policy needs approval.\n- **Stock:** 6 units of HDP-BT-R are available if a replacement is needed.\n\nNext, look at the existing open return and confirm its status with Priya. I'd only start a new return if the open one is for something else or has been closed."
+    },
+    {
+      "case": "stock-not-reserved",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1541,
+        "output": 357
+      },
+      "answer": "No. Nothing is set aside for Elena on CASE-17. The stock record shows LAP-14-R with 2 on hand, 0 reserved and 2 available, so no unit is held for her.\n\n- **Order:** SL-1042 was fulfilled and delivered on 2026-10-26. It included one LAP-14-R laptop and one CHG-65-C charger. There are no open returns.\n- **Replacement:** The damage policy allows 30 days from delivery, so the window runs to about 2026-11-25. A replacement needs approval first.\n- **Stock:** Two laptops are available, so we could reserve one once a replacement is approved.\n\nI can't see Elena's name in the data I pulled. I'm assuming she is the customer on SL-1042."
+    },
+    {
+      "case": "stock-not-reserved",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1541,
+        "output": 368
+      },
+      "answer": "No. Nothing is set aside for Elena on CASE-17. The stock record shows LAP-14-R with 2 on hand, 0 reserved and 2 available, so any replacement laptop would still have to be allocated.\n\nSome other details from the case:\n- **Order:** SL-1042 was delivered on 2026-10-26. It included one LAP-14-R laptop and one CHG-65-C charger. There are no open returns.\n- **Policy:** The damage policy gives a 30-day window from delivery, which runs to about 2026-11-25. Any replacement needs approval.\n\nI can't see a replacement request or approval on this case. I also can't confirm from this data that the customer is named Elena. If she's expecting a replacement, someone needs to get approval and reserve one of the 2 available units."
+    },
+    {
+      "case": "stock-not-reserved",
+      "run": 2,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 1541,
+        "output": 335
+      },
+      "answer": "No, nothing is set aside for Elena. The stock record for LAP-14-R (the laptop on order SL-1042) shows 2 on hand, 0 reserved and 2 available. The tools don't show a customer name, so I can't confirm the case belongs to Elena. I can only say that no units are reserved for this case.\n\nSome other context:\n- **Order status:** SL-1042 was delivered on 2026-10-26. It has no open returns.\n- **Policy:** The damage replacement policy allows 30 days from delivery, so the window runs to about 2026-11-25. Replacements need approval.\n- **Next step:** If a replacement is approved, 2 laptops are available to allocate."
+    }
+  ]
+}

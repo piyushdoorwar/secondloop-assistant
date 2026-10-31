@@ -65,17 +65,24 @@ def damage_policy_version(version: int):
 
 
 @app.get("/stock/{sku}", operation_id="warehouse_stock")
-def warehouse_stock(sku: str):
-    """Units on hand and units already reserved."""
+def warehouse_stock(sku: str, case_id: str | None = None):
+    """Units on hand and units already reserved.
+
+    With case_id, also says whether a unit is held for
+    that case.
+    """
     if sku not in STOCK:
         raise HTTPException(404, "Unknown SKU")
-    reserved = len(RESERVED.get(sku, []))
-    return {
+    holders = RESERVED.get(sku, [])
+    result = {
         "sku": sku,
         "on_hand": STOCK[sku],
-        "reserved": reserved,
-        "available": STOCK[sku] - reserved,
+        "reserved": len(holders),
+        "available": STOCK[sku] - len(holders),
     }
+    if case_id is not None:
+        result["held_for_case"] = case_id in holders
+    return result
 
 
 @app.post(

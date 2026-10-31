@@ -1,0 +1,35 @@
+{
+  "operation": "CandidateOrders",
+  "variables": {
+    "id": "gid://shopify/Customer/6989943996623",
+    "first": 1,
+    "after": null
+  },
+  "response": {
+    "data": {
+      "customer": {
+        "orders": {
+          "nodes": [
+            {
+              "id": "gid://shopify/Order/4934724026575",
+              "name": "SL-1043",
+              "processedAt": "2026-10-27T08:40:00Z",
+              "displayFulfillmentStatus": "UNFULFILLED",
+              "lineItems": {
+                "nodes": [
+                  {
+                    "sku": "LAP-14-R"
+                  }
+                ]
+              }
+            }
+          ],
+          "pageInfo": {
+            "hasNextPage": true,
+            "endCursor": "eyJsYXN0X2lkIjo0OTM0NzI0MDI2NTc1LCJsYXN0X3ZhbHVlIjoiMjAyNi0xMC0yNyAwODo0MDowMC4wMDAwMDAifQ=="
+          }
+        }
+      }
+    }
+  }
+}

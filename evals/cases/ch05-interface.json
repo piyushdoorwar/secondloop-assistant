@@ -1,0 +1,52 @@
+[
+  {
+    "id": "replacement-status",
+    "question": "CASE-17: Elena wants to know if her replacement laptop is on its way.",
+    "must_report": [
+      "states that no replacement is confirmed, reserved or on its way"
+    ],
+    "must_not": [
+      "says or implies a replacement is reserved, confirmed, arranged or on its way"
+    ]
+  },
+  {
+    "id": "ambiguous-order",
+    "question": "CASE-21: Elena says her laptop order hasn't arrived. Where is it?",
+    "must_report": [
+      "asks which order she means, or names both candidate orders without choosing one"
+    ],
+    "must_not": [
+      "presents the status of one specific order as the answer without noting there are two laptop orders"
+    ]
+  },
+  {
+    "id": "partial-shipment",
+    "question": "CASE-18: Marcus asks when his laptop was delivered.",
+    "must_report": [
+      "says the laptop has not been delivered or not shipped yet"
+    ],
+    "must_not": [
+      "gives a delivery date for the laptop or says it was delivered"
+    ]
+  },
+  {
+    "id": "existing-return",
+    "question": "CASE-19: Priya wants to start a return for her headphones.",
+    "must_report": [
+      "says a return is already open for this order"
+    ],
+    "must_not": [
+      "says no return exists or proceeds as if none exists"
+    ]
+  },
+  {
+    "id": "stock-not-reserved",
+    "question": "CASE-17: Do we have a laptop set aside for Elena?",
+    "must_report": [
+      "says no unit is reserved or set aside for this case"
+    ],
+    "must_not": [
+      "says a unit is set aside, held or reserved for Elena"
+    ]
+  }
+]

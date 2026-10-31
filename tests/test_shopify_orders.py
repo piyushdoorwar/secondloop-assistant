@@ -16,9 +16,18 @@ ORDER = {
     "lineItems": {
         "nodes": [
             {
+                "id": "L1",
                 "sku": "LAP-14-R",
                 "quantity": 1,
                 "currentQuantity": 1,
+                "unfulfilledQuantity": 1,
+            },
+            {
+                "id": "L2",
+                "sku": "HDP-BT-R",
+                "quantity": 1,
+                "currentQuantity": 1,
+                "unfulfilledQuantity": 0,
             },
         ]
     },
@@ -26,18 +35,23 @@ ORDER = {
         {
             "displayStatus": "IN_TRANSIT",
             "deliveredAt": None,
-        },
+            "fulfillmentLineItems": {
+                "nodes": [
+                    {"lineItem": {"id": "L2"}},
+                ]
+            },
+        }
     ],
     "returns": {"nodes": []},
 }
 
 
-def test_in_transit_is_not_delivered():
-    brief = to_brief(ORDER)
-    assert (
-        brief.fulfillment_status == "PARTIALLY_FULFILLED"
-    )
-    assert brief.delivered_at is None
+def test_lines_carry_their_own_shipment():
+    laptop, phones = to_brief(ORDER).lines
+    assert laptop.shipment == "NOT_SHIPPED"
+    assert laptop.unshipped == 1
+    assert phones.shipment == "IN_TRANSIT"
+    assert phones.delivered_at is None
 
 
 def test_access_denied_is_its_own_error():

@@ -13,21 +13,34 @@
         "lineItems": {
           "nodes": [
             {
+              "id": "gid://shopify/LineItem/12018792136911",
               "sku": "LAP-14-R",
               "quantity": 1,
-              "currentQuantity": 1
+              "currentQuantity": 1,
+              "unfulfilledQuantity": 1
             },
             {
+              "id": "gid://shopify/LineItem/12018792169679",
               "sku": "HDP-BT-R",
               "quantity": 1,
-              "currentQuantity": 1
+              "currentQuantity": 1,
+              "unfulfilledQuantity": 0
             }
           ]
         },
         "fulfillments": [
           {
             "displayStatus": "IN_TRANSIT",
-            "deliveredAt": null
+            "deliveredAt": null,
+            "fulfillmentLineItems": {
+              "nodes": [
+                {
+                  "lineItem": {
+                    "id": "gid://shopify/LineItem/12018792169679"
+                  }
+                }
+              ]
+            }
           }
         ],
         "returns": {

@@ -13,16 +13,27 @@
         "lineItems": {
           "nodes": [
             {
+              "id": "gid://shopify/LineItem/12018792202447",
               "sku": "HDP-BT-R",
               "quantity": 1,
-              "currentQuantity": 1
+              "currentQuantity": 1,
+              "unfulfilledQuantity": 0
             }
           ]
         },
         "fulfillments": [
           {
             "displayStatus": "DELIVERED",
-            "deliveredAt": "2026-10-22T12:05:00Z"
+            "deliveredAt": "2026-10-22T12:05:00Z",
+            "fulfillmentLineItems": {
+              "nodes": [
+                {
+                  "lineItem": {
+                    "id": "gid://shopify/LineItem/12018792202447"
+                  }
+                }
+              ]
+            }
           }
         ],
         "returns": {

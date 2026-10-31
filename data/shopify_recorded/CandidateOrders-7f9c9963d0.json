@@ -1,0 +1,38 @@
+{
+  "operation": "CandidateOrders",
+  "variables": {
+    "id": "gid://shopify/Customer/6989943996623",
+    "first": 1,
+    "after": "eyJsYXN0X2lkIjo0OTM0NzI0MDI2NTc1LCJsYXN0X3ZhbHVlIjoiMjAyNi0xMC0yNyAwODo0MDowMC4wMDAwMDAifQ=="
+  },
+  "response": {
+    "data": {
+      "customer": {
+        "orders": {
+          "nodes": [
+            {
+              "id": "gid://shopify/Order/4934721994959",
+              "name": "SL-1042",
+              "processedAt": "2026-10-23T10:15:00Z",
+              "displayFulfillmentStatus": "FULFILLED",
+              "lineItems": {
+                "nodes": [
+                  {
+                    "sku": "LAP-14-R"
+                  },
+                  {
+                    "sku": "CHG-65-C"
+                  }
+                ]
+              }
+            }
+          ],
+          "pageInfo": {
+            "hasNextPage": false,
+            "endCursor": "eyJsYXN0X2lkIjo0OTM0NzIxOTk0OTU5LCJsYXN0X3ZhbHVlIjoiMjAyNi0xMC0yMyAxMDoxNTowMC4wMDAwMDAifQ=="
+          }
+        }
+      }
+    }
+  }
+}

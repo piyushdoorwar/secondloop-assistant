@@ -23,14 +23,17 @@ async def brief(client, case_id):
 async def test_case_17_was_delivered(client):
     data = await brief(client, "CASE-17")
     assert data["brief"]["order_ref"] == "SL-1042"
-    assert data["brief"]["delivered_at"].startswith(
-        "2026-10-26"
-    )
+    laptop = data["brief"]["lines"][0]
+    assert laptop["sku"] == "LAP-14-R"
+    assert laptop["delivered_at"].startswith("2026-10-26")
 
 
 async def test_partial_order_has_no_delivery(client):
     data = await brief(client, "CASE-18")
-    assert data["brief"]["delivered_at"] is None
+    lines = {l["sku"]: l for l in data["brief"]["lines"]}
+    assert lines["LAP-14-R"]["shipment"] == "NOT_SHIPPED"
+    assert lines["HDP-BT-R"]["shipment"] == "IN_TRANSIT"
+    assert lines["HDP-BT-R"]["delivered_at"] is None
 
 
 async def test_existing_return_is_reported(client):
@@ -40,7 +43,7 @@ async def test_existing_return_is_reported(client):
 
 async def test_unknown_case(client):
     data = await brief(client, "CASE-99")
-    assert data == {"ok": False, "code": "case_not_found"}
+    assert data["code"] == "case_not_found"
 
 
 @pytest.mark.live

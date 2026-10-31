@@ -10,11 +10,17 @@ query OrderBrief($id: ID!) {
     processedAt
     displayFulfillmentStatus
     lineItems(first: 10) {
-      nodes { sku quantity currentQuantity }
+      nodes {
+        id sku quantity currentQuantity
+        unfulfilledQuantity
+      }
     }
     fulfillments(first: 5) {
       displayStatus
       deliveredAt
+      fulfillmentLineItems(first: 10) {
+        nodes { lineItem { id } }
+      }
     }
     returns(first: 5) {
       nodes { id status }
@@ -28,6 +34,9 @@ class Line(BaseModel):
     sku: str | None
     ordered: int
     current: int
+    unshipped: int
+    shipment: str
+    delivered_at: str | None
 
 
 class OrderBrief(BaseModel):
@@ -35,18 +44,39 @@ class OrderBrief(BaseModel):
     order_ref: str
     placed_at: str
     fulfillment_status: str
-    delivered_at: str | None
     lines: list[Line]
     open_returns: int
 
 
-def to_brief(order: dict) -> OrderBrief:
-    delivered = [
+def shipments_by_line(order: dict) -> dict:
+    """Map line item ID to its latest fulfillment."""
+    found = {}
+    for f in order["fulfillments"]:
+        for n in f["fulfillmentLineItems"]["nodes"]:
+            found[n["lineItem"]["id"]] = f
+    return found
+
+
+def to_line(node: dict, shipments: dict) -> Line:
+    f = shipments.get(node["id"])
+    status = f["displayStatus"] if f else "NOT_SHIPPED"
+    delivered = (
         f["deliveredAt"]
-        for f in order["fulfillments"]
-        if f["displayStatus"] == "DELIVERED"
-        and f["deliveredAt"]
-    ]
+        if f and status == "DELIVERED"
+        else None
+    )
+    return Line(
+        sku=node["sku"],
+        ordered=node["quantity"],
+        current=node["currentQuantity"],
+        unshipped=node["unfulfilledQuantity"],
+        shipment=status,
+        delivered_at=delivered,
+    )
+
+
+def to_brief(order: dict) -> OrderBrief:
+    shipments = shipments_by_line(order)
     returns = order["returns"]["nodes"]
     return OrderBrief(
         order_id=order["id"],
@@ -55,15 +85,8 @@ def to_brief(order: dict) -> OrderBrief:
         fulfillment_status=order[
             "displayFulfillmentStatus"
         ],
-        delivered_at=(
-            max(delivered) if delivered else None
-        ),
         lines=[
-            Line(
-                sku=n["sku"],
-                ordered=n["quantity"],
-                current=n["currentQuantity"],
-            )
+            to_line(n, shipments)
             for n in order["lineItems"]["nodes"]
         ],
         open_returns=sum(
