@@ -310,7 +310,7 @@ def propose_return(
     sku: str,
     quantity: Annotated[int, F(ge=1, le=5)] = 1,
 ) -> dict:
-    """Prepare a damage return for a second person to approve.
+    """Prepare a damage return for someone to approve.
 
     Creates a proposal only. Nothing changes in Shopify
     until another employee approves this exact proposal
@@ -355,7 +355,9 @@ def propose_return(
         "order_id": case.order_id,
         "order_ref": case.order_ref,
         "sku": sku,
-        "fulfillment_line_item_id": match.fulfillment_line_item_id,
+        "fulfillment_line_item_id": (
+            match.fulfillment_line_item_id
+        ),
         "quantity": quantity,
         "reason_definition_id": reason,
         "policy_version": decision.policy_version,
