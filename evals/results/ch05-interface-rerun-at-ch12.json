@@ -1,0 +1,346 @@
+{
+  "model": "claude-sonnet-5-5",
+  "variant": "current",
+  "rows": [
+    {
+      "case": "replacement-status",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 4942,
+        "output": 551
+      },
+      "answer": "No, I can't find anything showing a replacement laptop is on its way.\n\n- **Return:** A return for the laptop (SL-1042-R1) was approved and confirmed. The order brief still shows 0 open returns, which doesn't match, so it's worth checking in Shopify.\n- **Replacement:** No unit of LAP-14-R is reserved for this case. Two are in stock, but available stock isn't a reservation. The order shows only the original shipment, which was delivered on Oct 26, and no replacement shipment.\n- **Escalations:** Two escalations to operations were approved and posted. I can't see any reply or outcome from them.\n\nI'd tell Elena that the return is in place but a replacement hasn't been confirmed or shipped. Operations would need to confirm whether one is being arranged. I can draft another escalation about the missing replacement if you'd like."
+    },
+    {
+      "case": "replacement-status",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 4942,
+        "output": 511
+      },
+      "answer": "I can't find any sign that a replacement laptop is on its way.\n\n- **Original order:** SL-1042 shows the laptop (LAP-14-R) and charger delivered on 2026-10-26.\n- **Return:** A return proposal was approved and confirmed (SL-1042-R1). The order brief still shows 0 open returns, so please check that return in Shopify.\n- **Replacement:** No unit is reserved for this case. The 2 laptops in stock are only available, not held. I also see no replacement order or shipment. Two escalations to operations were approved, but I can't see whether they dealt with a replacement.\n\nPlease don't tell Elena a replacement has shipped. Someone should confirm with operations, or reserve a unit through the approval process. I can draft another escalation if you want one."
+    },
+    {
+      "case": "replacement-status",
+      "run": 2,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 4942,
+        "output": 569
+      },
+      "answer": "I can't find any sign that a replacement laptop is on its way.\n\n- **Order SL-1042:** The laptop (LAP-14-R) and charger were delivered on 2026-10-26. The order shows no other shipment.\n- **Return:** A return (SL-1042-R1) was approved and confirmed through SecondLoop. The order brief still shows 0 open returns, so I'd check Shopify to see what state that return is in.\n- **Replacement:** No unit is reserved for this case. LAP-14-R has 2 in stock, but stock isn't a reservation. I have no tool that creates or tracks a replacement, so I can't confirm one was ever requested.\n- **Escalations:** Two escalations to operations were approved and confirmed. I can't see their text or any reply to them.\n\nPlease don't tell Elena a replacement is shipping. Ask operations whether they acted on the escalations. If a replacement is still wanted, it needs a second employee's approval, and the last units should be held for her soon. I can draft another escalation if you'd like."
+    },
+    {
+      "case": "ambiguous-order",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "list_candidate_orders"
+      ],
+      "tokens": {
+        "input": 6584,
+        "output": 372
+      },
+      "answer": "CASE-21 has no linked order, so I can't say where her laptop is yet. Elena has two recent orders that both include a laptop (LAP-14-R):\n\n- **SL-1043**, placed 27 Oct. It is still UNFULFILLED, so it hasn't shipped. It contains only the laptop.\n- **SL-1042**, placed 23 Oct. It is FULFILLED. It contains the laptop and a charger (CHG-65-C).\n\nWhich order does she mean? Once you tell me, I can pull the shipment and tracking details. I haven't opened any returns or escalations, and the case has no prior activity."
+    },
+    {
+      "case": "ambiguous-order",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "list_candidate_orders"
+      ],
+      "tokens": {
+        "input": 6584,
+        "output": 383
+      },
+      "answer": "CASE-21 has no linked order, so I can't tell which order Elena means. Her two recent orders both include a laptop (LAP-14-R):\n\n- **SL-1043**, placed 27 Oct. It's **UNFULFILLED**, so it hasn't shipped yet. It contains the laptop only.\n- **SL-1042**, placed 23 Oct. It's **FULFILLED**. It contains the laptop and a charger (CHG-65-C). I haven't seen its shipment or delivery status.\n\nWhich order does she mean? Once you tell me, I can check the shipment details. If it's SL-1043, the answer is that it hasn't shipped."
+    },
+    {
+      "case": "ambiguous-order",
+      "run": 2,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "list_candidate_orders"
+      ],
+      "tokens": {
+        "input": 6584,
+        "output": 358
+      },
+      "answer": "CASE-21 isn't linked to an order, so I can't say where her laptop is yet. Elena has two recent orders that include a laptop (LAP-14-R):\n\n- **SL-1043** was placed on 27 Oct. It is still **unfulfilled**, so it hasn't shipped.\n- **SL-1042** was placed on 23 Oct. It is **fulfilled** and also includes a charger (CHG-65-C).\n\nWhich order does she mean? Once you tell me, I can check its shipment status. If it's SL-1043, the answer is already that it hasn't shipped."
+    },
+    {
+      "case": "partial-shipment",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 4172,
+        "output": 232
+      },
+      "answer": "Marcus's laptop (SKU LAP-14-R, order SL-1044) hasn't been delivered, because it hasn't shipped. Shopify shows it as NOT_SHIPPED, with 1 unit still unshipped, so there is no delivery date.\n\nThe order was placed on 2026-10-22 and is partially fulfilled. The other item, the HDP-BT-R headphones, has shipped and is in transit. It also hasn't been delivered.\n\nI can escalate the delayed laptop shipment to operations if you'd like."
+    },
+    {
+      "case": "partial-shipment",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 4172,
+        "output": 230
+      },
+      "answer": "The laptop (LAP-14-R) on order SL-1044 hasn't been delivered, because it hasn't shipped. Its shipment status is NOT_SHIPPED, and there is no delivery date. The order was placed on 22 Oct 2026 and is only partly fulfilled. The other item, the headphones (HDP-BT-R), is in transit and hasn't been delivered either.\n\nSo Marcus can be told that the laptop is still waiting to ship. If the delay looks too long, I can prepare an escalation to operations."
+    },
+    {
+      "case": "partial-shipment",
+      "run": 2,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 4172,
+        "output": 189
+      },
+      "answer": "Marcus's laptop (SKU LAP-14-R, order SL-1044) hasn't been delivered. It also hasn't shipped yet, and its shipment status is NOT_SHIPPED. The order was placed on 22 Oct 2026 and is only partially fulfilled.\n\nThe other item, the headphones (HDP-BT-R), shipped and is in transit. It has no delivery date yet."
+    },
+    {
+      "case": "existing-return",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "get_replacement_context",
+        "check_return_window"
+      ],
+      "tokens": {
+        "input": 7419,
+        "output": 505
+      },
+      "answer": "I haven't proposed a new return for CASE-19, because order SL-1045 already has one open in Shopify. The return window check for the headphones (HDP-BT-R) came back as `return_already_open`.\n\n- **Timing:** The headphones were delivered on Oct 22 and the issue was reported on Oct 30. That is 8 days after delivery, inside the 30-day window.\n- **Source of the open return:** It wasn't created through this assistant, because the case activity shows no proposals. Someone must have opened it directly in Shopify.\n\nA second proposal would duplicate it. Please check the existing return in Shopify and confirm with Priya that it's the one she means. If she needs something different, such as a replacement, tell me and I can look at that."
+    },
+    {
+      "case": "existing-return",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "get_replacement_context",
+        "check_return_window"
+      ],
+      "tokens": {
+        "input": 7436,
+        "output": 501
+      },
+      "answer": "I didn't create a new return for CASE-19, because the order already has one open.\n\nOrder SL-1045 has one line, the headphones (HDP-BT-R). It was delivered on 2026-10-22, and the case was reported on 2026-10-30, which is 8 days later and inside the 30-day window. The window check came back \"return_already_open\". The open return isn't one this assistant made. It must have been created in Shopify some other way, because the case activity shows no proposals.\n\nPlease look at the open return in Shopify and check whether it's the one Priya wants. If it is, nothing more is needed. If she wants something different, such as a replacement or a different quantity, tell me and I can take it from there."
+    },
+    {
+      "case": "existing-return",
+      "run": 2,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "get_replacement_context",
+        "check_return_window"
+      ],
+      "tokens": {
+        "input": 7427,
+        "output": 478
+      },
+      "answer": "I didn't propose a return for CASE-19 because order SL-1045 already has one open for the headphones (HDP-BT-R). The return window check came back `return_already_open`. It wasn't created through this assistant, because the case activity is empty. It was probably created directly in Shopify.\n\nThe headphones were delivered on 2026-10-22, and the case was reported 8 days later. That's well inside the 30-day window, so timing isn't the problem.\n\nSomeone should check the existing return in Shopify and confirm it's the one Priya means. If she needs something different, such as a replacement or a different quantity, tell me and I can escalate to operations."
+    },
+    {
+      "case": "stock-not-reserved",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_replacement_context",
+        "get_case_activity",
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 4934,
+        "output": 312
+      },
+      "answer": "No. Nothing is set aside for Elena on CASE-17. The replacement context shows reservation \"none\" for the laptop (LAP-14-R). Two units are in stock and available, but available stock isn't a reservation.\n\nA return for this order (SL-1042) is already approved and confirmed (SL-1042-R1). Two escalations were also approved and posted. No replacement has been reserved or requested through this assistant. I can't reserve a unit with these tools."
+    },
+    {
+      "case": "stock-not-reserved",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_replacement_context",
+        "get_case_activity"
+      ],
+      "tokens": {
+        "input": 4570,
+        "output": 238
+      },
+      "answer": "No. Nothing is set aside for Elena on CASE-17. The laptop (LAP-14-R) shows reservation \"none\". Two units are in stock and available, but the policy says available stock isn't a reservation.\n\nThe case activity shows an approved return (confirmed) and two approved escalations. It shows no replacement reservation. If she should get a laptop, a second employee has to approve the replacement."
+    },
+    {
+      "case": "stock-not-reserved",
+      "run": 2,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_replacement_context",
+        "get_case_activity"
+      ],
+      "tokens": {
+        "input": 4570,
+        "output": 251
+      },
+      "answer": "No. Nothing is set aside for Elena on CASE-17. The system shows reservation \"none\" for the laptop (LAP-14-R). Two units are in stock and available, but available stock isn't a reservation.\n\nThe case already has an approved and confirmed return (SL-1042-R1) and two approved escalations. None of these is a replacement reservation. I can't reserve a unit with my tools. A replacement needs a second employee's approval."
+    }
+  ]
+}
