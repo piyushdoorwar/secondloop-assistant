@@ -26,7 +26,10 @@ os.environ.update(
 
 from secondloop.console.app import app  # noqa: E402
 from secondloop.mcp_server.server import mcp  # noqa
-from secondloop.workflow.db import connect, migrate  # noqa
+from secondloop.workflow.db import (
+    connect,
+    migrate,
+)  # noqa
 from secondloop.workflow.run import main as work  # noqa
 
 
