@@ -33,8 +33,8 @@ def deliver_one(conn, client, channel) -> dict | None:
             )
         if ts is None:
             conn.execute(
-                "UPDATE outbox SET attempts = attempts + 1 "
-                "WHERE id = %s",
+                "UPDATE outbox SET attempts = "
+                "attempts + 1 WHERE id = %s",
                 (event["id"],),
             )
     if ts is None:
