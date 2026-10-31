@@ -2,6 +2,7 @@
 
 from typing import Annotated
 
+import anyio
 from fastmcp import FastMCP
 from pydantic import Field
 
@@ -23,6 +24,22 @@ CASES = load_cases()
 CaseId = Annotated[str, Field(pattern=r"^CASE-\d{1,8}$")]
 
 
+def case_brief(case_id: str):
+    """Return (brief, None) or (None, error_code)."""
+    case = CASES.get(case_id)
+    if case is None:
+        return None, "case_not_found"
+    try:
+        brief = read_order_brief(
+            admin_client(case.shop), case.order_id
+        )
+    except ShopifyError as error:
+        return None, error.code
+    if brief is None:
+        return None, "order_not_found"
+    return brief, None
+
+
 @mcp.tool(annotations={"readOnlyHint": True})
 def get_order_brief(case_id: CaseId) -> dict:
     """Read the order linked to a support case.
@@ -31,17 +48,9 @@ def get_order_brief(case_id: CaseId) -> dict:
     Shopify. Does not decide return eligibility, reserve
     stock, or create anything.
     """
-    case = CASES.get(case_id)
-    if case is None:
-        return {"ok": False, "code": "case_not_found"}
-    try:
-        brief = read_order_brief(
-            admin_client(case.shop), case.order_id
-        )
-    except ShopifyError as error:
-        return {"ok": False, "code": error.code}
-    if brief is None:
-        return {"ok": False, "code": "order_not_found"}
+    brief, error = case_brief(case_id)
+    if error:
+        return {"ok": False, "code": error}
     return {"ok": True, "brief": brief.model_dump()}
 
 
@@ -56,17 +65,11 @@ async def get_replacement_context(
     cases. Does not reserve a unit or request a
     replacement.
     """
-    case = CASES.get(case_id)
-    if case is None:
-        return {"ok": False, "code": "case_not_found"}
-    try:
-        brief = read_order_brief(
-            admin_client(case.shop), case.order_id
-        )
-    except ShopifyError as error:
-        return {"ok": False, "code": error.code}
-    if brief is None:
-        return {"ok": False, "code": "order_not_found"}
+    brief, error = await anyio.to_thread.run_sync(
+        case_brief, case_id
+    )
+    if error:
+        return {"ok": False, "code": error}
     skus = sorted({l.sku for l in brief.lines if l.sku})
     async with ops_http() as http:
         try:
