@@ -1,6 +1,6 @@
 """Check each account the project uses, and say what is wrong.
 
-python scripts/check_setup.py
+python -m scripts.check_setup
 Reads only. Posts nothing, creates nothing.
 """
 

@@ -1,6 +1,6 @@
 """Appendix B: four small Admin GraphQL requests, raw.
 
-SHOPIFY_MODE=live python scripts/graphql_tour.py
+python -m scripts.graphql_tour
 """
 
 import json
