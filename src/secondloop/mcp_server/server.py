@@ -1,6 +1,7 @@
 """The SecondLoop investigation server."""
 
 import logging
+import os
 
 from typing import Annotated
 
@@ -40,7 +41,7 @@ from secondloop.workflow.db import connect
 
 mcp = FastMCP(
     "SecondLoop investigations",
-    version="0.8.0",
+    version="1.0.0",
     auth=build_auth(),
 )
 log = logging.getLogger("secondloop.mcp")
@@ -317,6 +318,8 @@ def propose_return(
     in the support console. Requires the return window
     check to be eligible_for_proposal.
     """
+    if os.environ.get("SECONDLOOP_WRITES") == "off":
+        return failure("writes_paused")
     case, error = permitted_case(
         case_id, "return_request"
     )
@@ -403,6 +406,8 @@ def propose_escalation(
     personal details out of the summary. Posts only
     after a second employee approves the exact text.
     """
+    if os.environ.get("SECONDLOOP_WRITES") == "off":
+        return failure("writes_paused")
     case, error = permitted_case(
         case_id, "return_request"
     )

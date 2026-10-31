@@ -180,3 +180,9 @@ async def test_escalation_has_a_fixed_channel(as_mira):
                 "channel": "C-GENERAL",
             },
         )
+
+
+async def test_writes_can_be_paused(as_mira, monkeypatch):
+    monkeypatch.setenv("SECONDLOOP_WRITES", "off")
+    data = await propose(as_mira)
+    assert data["code"] == "writes_paused"

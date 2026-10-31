@@ -60,6 +60,11 @@ FAILURES = {
         False,
         "That quantity is not returnable on this order.",
     ),
+    "writes_paused": (
+        False,
+        "New proposals are paused. Investigation still "
+        "works; tell the employee to try later.",
+    ),
     "cursor_invalid": (
         False,
         "The continuation token is not valid for this "

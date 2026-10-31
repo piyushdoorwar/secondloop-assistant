@@ -1,6 +1,7 @@
 """Run the worker: python -m secondloop.workflow.run"""
 
 import logging
+import os
 import time
 
 from secondloop import slack
@@ -20,9 +21,11 @@ def main(once=False, idle=2.0):
         channel = slack.operations_channel()
         while True:
             reconcile.expire_leases(conn)
-            done = worker.run_once(
-                conn, vendors, current_checks
-            )
+            done = None
+            if os.environ.get("WORKER_PAUSED") != "1":
+                done = worker.run_once(
+                    conn, vendors, current_checks
+                )
             found = reconcile.reconcile(conn)
             sent = outbox.deliver_one(
                 conn, client, channel
