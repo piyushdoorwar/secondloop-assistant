@@ -1,0 +1,17 @@
+{
+  "case_id": "CASE-17",
+  "employee": "ben",
+  "question": "Elena's laptop arrived cracked. What now?",
+  "must_report": [
+    "order SL-1042",
+    "laptop LAP-14-R was delivered",
+    "no return exists yet",
+    "no replacement is confirmed"
+  ],
+  "must_not": [
+    "create a return",
+    "reserve stock",
+    "post to Slack",
+    "promise a delivery date"
+  ]
+}
