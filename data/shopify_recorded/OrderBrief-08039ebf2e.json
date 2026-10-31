@@ -1,0 +1,39 @@
+{
+  "operation": "OrderBrief",
+  "variables": {
+    "id": "gid://shopify/Order/4934724059343"
+  },
+  "response": {
+    "data": {
+      "order": {
+        "id": "gid://shopify/Order/4934724059343",
+        "name": "SL-1044",
+        "processedAt": "2026-10-22T14:05:00Z",
+        "displayFulfillmentStatus": "PARTIALLY_FULFILLED",
+        "lineItems": {
+          "nodes": [
+            {
+              "sku": "LAP-14-R",
+              "quantity": 1,
+              "currentQuantity": 1
+            },
+            {
+              "sku": "HDP-BT-R",
+              "quantity": 1,
+              "currentQuantity": 1
+            }
+          ]
+        },
+        "fulfillments": [
+          {
+            "displayStatus": "IN_TRANSIT",
+            "deliveredAt": null
+          }
+        ],
+        "returns": {
+          "nodes": []
+        }
+      }
+    }
+  }
+}

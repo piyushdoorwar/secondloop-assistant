@@ -1,0 +1,39 @@
+{
+  "operation": "OrderBrief",
+  "variables": {
+    "id": "gid://shopify/Order/4934721994959"
+  },
+  "response": {
+    "data": {
+      "order": {
+        "id": "gid://shopify/Order/4934721994959",
+        "name": "SL-1042",
+        "processedAt": "2026-10-23T10:15:00Z",
+        "displayFulfillmentStatus": "FULFILLED",
+        "lineItems": {
+          "nodes": [
+            {
+              "sku": "LAP-14-R",
+              "quantity": 1,
+              "currentQuantity": 1
+            },
+            {
+              "sku": "CHG-65-C",
+              "quantity": 1,
+              "currentQuantity": 1
+            }
+          ]
+        },
+        "fulfillments": [
+          {
+            "displayStatus": "DELIVERED",
+            "deliveredAt": "2026-10-26T15:42:00Z"
+          }
+        ],
+        "returns": {
+          "nodes": []
+        }
+      }
+    }
+  }
+}

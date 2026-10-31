@@ -1,0 +1,39 @@
+{
+  "operation": "OrderBrief",
+  "variables": {
+    "id": "gid://shopify/Order/4934724092111"
+  },
+  "response": {
+    "data": {
+      "order": {
+        "id": "gid://shopify/Order/4934724092111",
+        "name": "SL-1045",
+        "processedAt": "2026-10-20T09:30:00Z",
+        "displayFulfillmentStatus": "FULFILLED",
+        "lineItems": {
+          "nodes": [
+            {
+              "sku": "HDP-BT-R",
+              "quantity": 1,
+              "currentQuantity": 1
+            }
+          ]
+        },
+        "fulfillments": [
+          {
+            "displayStatus": "DELIVERED",
+            "deliveredAt": "2026-10-22T12:05:00Z"
+          }
+        ],
+        "returns": {
+          "nodes": [
+            {
+              "id": "gid://shopify/Return/4075487439",
+              "status": "OPEN"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
