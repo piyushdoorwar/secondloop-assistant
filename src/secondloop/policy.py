@@ -41,23 +41,16 @@ def assess(
         "timezone": timezone,
         "reported_on": reported.isoformat(),
     }
-    if open_returns:
-        return Assessment(
-            outcome="return_already_open",
-            delivered_on=None,
-            days_after_delivery=None,
-            **base,
-        )
     if line.delivered_at is None:
-        return Assessment(
-            outcome="no_delivery_record",
-            delivered_on=None,
-            days_after_delivery=None,
-            **base,
-        )
-    delivered = local_date(line.delivered_at, tz)
-    days = (reported - delivered).days
-    if days < 0:
+        delivered, days = None, None
+    else:
+        delivered = local_date(line.delivered_at, tz)
+        days = (reported - delivered).days
+    if open_returns:
+        outcome = "return_already_open"
+    elif days is None:
+        outcome = "no_delivery_record"
+    elif days < 0:
         outcome = "report_before_delivery"
     elif days > policy["window_days"]:
         outcome = "outside_window"
@@ -65,7 +58,9 @@ def assess(
         outcome = "eligible_for_proposal"
     return Assessment(
         outcome=outcome,
-        delivered_on=delivered.isoformat(),
+        delivered_on=(
+            delivered.isoformat() if delivered else None
+        ),
         days_after_delivery=days,
         **base,
     )

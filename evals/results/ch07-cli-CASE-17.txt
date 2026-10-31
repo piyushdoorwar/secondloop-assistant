@@ -1,0 +1,30 @@
+**CASE-17 (order SL-1042)**
+
+**Order**
+- Two lines: LAP-14-R (laptop) and CHG-65-C (charger). Both are fulfilled and delivered on 2026-10-26 (15:42 UTC).
+- No returns are open.
+
+**Return window (policy damage v3, 30 calendar days from delivery, America/New_York)**
+- I checked both SKUs because the case data doesn't say which item is damaged.
+- LAP-14-R: eligible for proposal. The report was on 2026-10-29, 3 days after delivery.
+- CHG-65-C: eligible for proposal. Same dates, 3 days after delivery.
+- "Eligible for proposal" means a return can be proposed. It is not an approval.
+
+**Stock**
+- LAP-14-R: 2 on hand, 2 available, no reservation for this case.
+- CHG-65-C: 40 on hand, 40 available, no reservation for this case.
+- Under policy v3, available stock is not a reservation.
+
+**Still unknown**
+- Which SKU is damaged, and what the damage is. I didn't pick one.
+- Whether the customer wants a return, a replacement, or something else.
+- Whether a second employee will approve a replacement. Policy v3 requires that approval.
+- No unit is held, so I can't promise a replacement or a date. The laptop has only 2 units available.
+
+I created nothing.
+---
+get_order_brief {"case_id": "CASE-17"}
+get_replacement_context {"case_id": "CASE-17"}
+check_return_window {"case_id": "CASE-17", "sku": "LAP-14-R"}
+check_return_window {"case_id": "CASE-17", "sku": "CHG-65-C"}
+policy v3, turns 3, stop end_turn, tokens {'input': 6719, 'output': 889}

@@ -3,18 +3,28 @@
 import json
 from dataclasses import dataclass, field
 
+HOST_ERRORS = {
+    "tool_not_offered",
+    "call_budget_exceeded",
+    "result_too_large",
+    "tool_failed",
+}
+
 
 @dataclass
 class Budget:
     max_turns: int = 6
     max_calls: int = 10
+    max_result_chars: int = 20_000
 
 
 @dataclass
 class Transcript:
     answer: str = ""
-    calls: list[dict] = field(default_factory=list)
+    complete: bool = False
     stop: str = ""
+    turns: int = 0
+    calls: list[dict] = field(default_factory=list)
     usage: dict = field(
         default_factory=lambda: {"input": 0, "output": 0}
     )
@@ -49,7 +59,8 @@ async def run(
     else:
         messages = list(question)
     out = Transcript()
-    for _ in range(budget.max_turns):
+    while out.turns < budget.max_turns:
+        out.turns += 1
         reply = await model.respond(
             system, tools, messages
         )
@@ -58,6 +69,7 @@ async def run(
         content = reply["content"]
         if reply["stop_reason"] != "tool_use":
             out.stop = reply["stop_reason"]
+            out.complete = out.stop == "end_turn"
             out.answer = "\n".join(
                 b["text"]
                 for b in content
@@ -67,15 +79,13 @@ async def run(
         messages.append(
             {"role": "assistant", "content": content}
         )
-        results = []
-        for block in content:
-            if block["type"] != "tool_use":
-                continue
-            results.append(
-                await run_call(
-                    client, block, offered, budget, out
-                )
+        results = [
+            await run_call(
+                client, block, offered, budget, out
             )
+            for block in content
+            if block["type"] == "tool_use"
+        ]
         messages.append(
             {"role": "user", "content": results}
         )
@@ -86,29 +96,31 @@ async def run(
 async def run_call(client, block, offered, budget, out):
     name, args = block["name"], block["input"]
     if len(out.calls) >= budget.max_calls:
-        data = {
-            "ok": False,
-            "code": "call_budget_exceeded",
-        }
+        data = host_error("call_budget_exceeded")
     elif name not in offered:
-        data = {"ok": False, "code": "tool_not_offered"}
+        data = host_error("tool_not_offered")
     else:
         result = await client.call_tool(
             name, args, raise_on_error=False
         )
-        data = (
-            result.data
-            if result.data is not None
-            else {
-                "ok": False,
-                "code": "tool_failed",
-            }
-        )
+        if result.is_error or result.data is None:
+            data = host_error("tool_failed")
+        else:
+            data = result.data
+    text = json.dumps(data)
+    if len(text) > budget.max_result_chars:
+        data = host_error("result_too_large")
+        text = json.dumps(data)
     out.calls.append(
         {"name": name, "input": args, "result": data}
     )
     return {
         "type": "tool_result",
         "tool_use_id": block["id"],
-        "content": json.dumps(data),
+        "content": text,
+        "is_error": data.get("code") in HOST_ERRORS,
     }
+
+
+def host_error(code: str) -> dict:
+    return {"ok": False, "code": code}

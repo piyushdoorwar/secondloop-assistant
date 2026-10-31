@@ -1,0 +1,22 @@
+**CASE-19 (order SL-1045)**
+
+**Facts**
+- The order has one line, HDP-BT-R, quantity 1. It was delivered on 2026-10-22 (12:05 UTC).
+- The damage was reported on 2026-10-30, which is 8 days after delivery. The 30-day window is counted in America/New_York time, so the report is well inside it.
+- The order shows 1 open return. The window check for HDP-BT-R returned **`return_already_open`**. That means it did not return `eligible_for_proposal`.
+- Stock for HDP-BT-R is 6 on hand and 6 available. **No unit is reserved for this case.**
+
+**Policy used:** damage version 3, effective 2026-10-01, from policy://damage/current. Damaged items can be returned within 30 calendar days of delivery. A replacement needs approval from a second employee. Available stock is not a reservation.
+
+**Still unknown**
+- Who opened the existing return, when it was opened, and whether it is for this damage report. The tools don't show this.
+- What state that return is in (for example, pending or approved).
+- What the customer wants: a replacement, a refund, or just the existing return.
+- Whether any damage evidence, such as photos, has been reviewed. I didn't see any.
+
+**Next step:** Someone should look at the open return before anything new is proposed. I haven't promised a replacement or a date, and I haven't created or reserved anything.
+---
+get_order_brief {"case_id": "CASE-19"}
+get_replacement_context {"case_id": "CASE-19"}
+check_return_window {"case_id": "CASE-19", "sku": "HDP-BT-R"}
+policy v3, turns 3, stop end_turn, tokens {'input': 5976, 'output': 662}
