@@ -3,6 +3,7 @@
 Run against your development store with SHOPIFY_MODE=live.
 Writes one JSON file per operation and variables.
 """
+
 import hashlib
 import json
 import pathlib
@@ -22,11 +23,17 @@ def record(client, operation, document, variables):
     key = json.dumps(variables, sort_keys=True)
     name = hashlib.sha256(key.encode()).hexdigest()[:10]
     path = OUT / f"{operation}-{name}.json"
-    path.write_text(json.dumps({
-        "operation": operation,
-        "variables": variables,
-        "response": payload,
-    }, indent=2) + "\n")
+    path.write_text(
+        json.dumps(
+            {
+                "operation": operation,
+                "variables": variables,
+                "response": payload,
+            },
+            indent=2,
+        )
+        + "\n"
+    )
     return path
 
 
@@ -34,6 +41,10 @@ if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     for case in load_cases().values():
         client = admin_client(case.shop)
-        path = record(client, "OrderBrief", ORDER_BRIEF,
-                      {"id": case.order_id})
+        path = record(
+            client,
+            "OrderBrief",
+            ORDER_BRIEF,
+            {"id": case.order_id},
+        )
         print(case.case_id, "->", path.name)
