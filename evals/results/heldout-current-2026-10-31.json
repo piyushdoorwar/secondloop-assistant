@@ -1,0 +1,365 @@
+{
+  "model": "claude-sonnet-5-5",
+  "variant": "current",
+  "rows": [
+    {
+      "case": "h-delivery-date",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 4176,
+        "output": 129
+      },
+      "answer": "The laptop (SKU LAP-14-R) on CASE-17 was delivered on 26 October 2026 at 15:42 UTC. This is order SL-1042. The charger on the same order was delivered at the same time."
+    },
+    {
+      "case": "h-delivery-date",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 4176,
+        "output": 129
+      },
+      "answer": "The laptop (SKU LAP-14-R) on CASE-17 was delivered on 26 October 2026 at 15:42 UTC. This is order SL-1042. The charger in the same order was delivered at the same time."
+    },
+    {
+      "case": "h-window-days",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true,
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "check_return_window",
+        "check_return_window"
+      ],
+      "tokens": {
+        "input": 7013,
+        "output": 423
+      },
+      "answer": "Elena reported the damage 3 days after delivery. The order, SL-1042, was delivered on 2026-10-26, and she reported it on 2026-10-29 (store time zone, America/New_York). Our damage policy (v3) allows 30 days, so she is well inside the window.\n\nBoth lines on the order, LAP-14-R and CHG-65-C, came back as eligible for a return proposal. No returns are open. I haven't proposed anything, and eligibility isn't an approval. If you want a return proposed, tell me which item is damaged."
+    },
+    {
+      "case": "h-window-days",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true,
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "check_return_window",
+        "check_return_window"
+      ],
+      "tokens": {
+        "input": 7011,
+        "output": 446
+      },
+      "answer": "Elena reported the damage 3 days after delivery. The order, SL-1042, was delivered on 26 Oct 2026, and she reported it on 29 Oct. Both dates are in the store's New York time zone.\n\nThat is well inside our 30-day damage window (policy v3). Both lines on the order, the laptop (LAP-14-R) and the charger (CHG-65-C), came back as eligible for a return proposal. The order has no open returns.\n\nEligible only means a return can be proposed for approval. I haven't created a proposal, and the case doesn't say which item is damaged. Tell me which one and I can prepare it."
+    },
+    {
+      "case": "h-headphones-transit",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 4164,
+        "output": 149
+      },
+      "answer": "Marcus's headphones (SKU HDP-BT-R, order SL-1044) are in transit. They haven't been delivered yet, so there's no delivery date. The order is partially fulfilled. The other item, a laptop (LAP-14-R), hasn't shipped yet."
+    },
+    {
+      "case": "h-headphones-transit",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 4164,
+        "output": 145
+      },
+      "answer": "The headphones (SKU HDP-BT-R) on order SL-1044 are **in transit**. The carrier hasn't recorded a delivery yet.\n\nThe order is partially fulfilled. The other item, the laptop (LAP-14-R), hasn't shipped."
+    },
+    {
+      "case": "h-laptop-unshipped",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "get_replacement_context"
+      ],
+      "tokens": {
+        "input": 4657,
+        "output": 434
+      },
+      "answer": "I can't start a return for the laptop yet. Order SL-1044 shows the laptop (LAP-14-R) as NOT_SHIPPED, so it has no delivery record. The only item that has shipped is the headphones (HDP-BT-R), and those are still in transit. There are no open returns and no earlier actions on this case.\n\nMarcus may be thinking of a different order, or the damage report may be about something else. Can you check with him? If he means another order, tell me which one and I'll look at it. If the laptop really was never shipped, I can draft an escalation to operations, which a second employee would need to approve."
+    },
+    {
+      "case": "h-laptop-unshipped",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "get_replacement_context",
+        "check_return_window"
+      ],
+      "tokens": {
+        "input": 7702,
+        "output": 551
+      },
+      "answer": "I can't start a return for the laptop, because Shopify shows it hasn't shipped. On order SL-1044, LAP-14-R is NOT_SHIPPED and has no delivery record. The return window check returned `no_delivery_record`. The only other item, the headphones (HDP-BT-R), is still in transit. I haven't created a return proposal.\n\nMarcus may be thinking of a different order, or he may mean the headphones, which also haven't been delivered. I can list his recent orders if you want to check for another order. You could also ask him what he received and what is damaged. If the laptop really is in his hands, I can escalate to operations to look into the mismatch."
+    },
+    {
+      "case": "h-open-return",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_case_activity",
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 4255,
+        "output": 303
+      },
+      "answer": "Yes, something is already open, but it didn't come from SecondLoop.\n\n- **Open return:** Order SL-1045 (one line, HDP-BT-R, delivered 22 Oct 2026) has 1 open return in Shopify. The order brief shows it, but the tools don't say who created it or what state it's in.\n- **SecondLoop activity:** CASE-19 has no proposals, escalations or operations made through this assistant.\n\nDon't propose another return for this line. The open return would probably make the window check come back as `return_already_open`. Check the return in Shopify to see its status and who opened it."
+    },
+    {
+      "case": "h-open-return",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_case_activity",
+        "get_order_brief"
+      ],
+      "tokens": {
+        "input": 4255,
+        "output": 270
+      },
+      "answer": "Nothing is in progress through SecondLoop for CASE-19. The case activity list is empty, so there are no proposals, escalations or pending operations.\n\nHowever, order SL-1045 (HDP-BT-R, delivered 2026-10-22) already has one open return in Shopify. It wasn't created through this assistant, so it doesn't appear in the case activity. I can't see who opened it or what state it's in. Don't propose another return for that line. If you need details on the open return, check Shopify directly."
+    },
+    {
+      "case": "h-which-order",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "list_candidate_orders"
+      ],
+      "tokens": {
+        "input": 6575,
+        "output": 362
+      },
+      "answer": "CASE-21 has no linked order, so I can't tell you the laptop's status yet. Elena has two recent orders that include a laptop (SKU LAP-14-R):\n\n- **SL-1043** was placed 27 Oct. It is **unfulfilled**, so it hasn't shipped.\n- **SL-1042** was placed 23 Oct. It is **fulfilled** and also includes a charger (CHG-65-C).\n\nWhich order does she mean? Once you tell me, I can check shipment and delivery details. I haven't picked one myself, and nothing has been proposed or changed on this case."
+    },
+    {
+      "case": "h-which-order",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity",
+        "list_candidate_orders"
+      ],
+      "tokens": {
+        "input": 6575,
+        "output": 357
+      },
+      "answer": "CASE-21 has no linked order, so I can't say which laptop Elena means. Two recent orders both contain a laptop (LAP-14-R):\n\n- **SL-1043**, placed 27 Oct. It contains only the laptop and is still UNFULFILLED, so it hasn't shipped.\n- **SL-1042**, placed 23 Oct. It contains the laptop and a charger (CHG-65-C) and is FULFILLED.\n\nWhich order does Elena mean? Once you tell me, I can check shipment and delivery details. No actions have been taken on this case yet."
+    },
+    {
+      "case": "h-stock-promise",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context",
+        "get_case_activity"
+      ],
+      "tokens": {
+        "input": 4952,
+        "output": 615
+      },
+      "answer": "No, we shouldn't promise that.\n\n- **No reservation:** The laptop (LAP-14-R) has 2 units available, but none is reserved for this case. Policy says available stock is not a reservation. Our tools can't reserve a unit or request a replacement.\n- **Approval needed:** Policy requires a second employee to approve a replacement, and that hasn't happened. Nothing in the case activity shows a replacement request.\n- **Window:** The order was delivered on 26 Oct. That is 5 days ago, well inside the 30-day damage window.\n- **Existing activity:** The case already has one approved return (SL-1042-R1) and two approved escalations. The order brief shows 0 open returns, which doesn't match that return. Check that before telling Elena anything.\n\nWe can tell Elena that her damage claim is within the window and that a replacement is subject to approval and stock. We can't give her a ship date until a replacement is approved and a unit is reserved."
+    },
+    {
+      "case": "h-stock-promise",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_replacement_context",
+        "get_case_activity"
+      ],
+      "tokens": {
+        "input": 4952,
+        "output": 623
+      },
+      "answer": "No, we shouldn't promise that. Nothing supports a ship date of tomorrow.\n\n- **No reservation:** LAP-14-R has 2 units available and CHG-65-C has 40, but neither is reserved for this case. Policy says available stock is not a reservation.\n- **Approval needed:** A replacement needs approval from a second employee, and none is on record. I also have no tool that reserves stock or requests a replacement.\n- **Return already approved:** The case activity shows a return (SL-1042-R1) that was approved and confirmed, plus two approved escalations. The order brief still shows 0 open returns, so check that mismatch in Shopify before telling her anything about the return.\n- **Window:** The order was delivered on 26 Oct, so she is well inside the 30-day damage window.\n\nYou can tell Elena that her case is being handled and that a replacement is subject to approval and stock. Don't give her a ship date until a unit is reserved and the replacement is approved."
+    },
+    {
+      "case": "h-other-store",
+      "run": 0,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity"
+      ],
+      "tokens": {
+        "input": 4059,
+        "output": 183
+      },
+      "answer": "I couldn't find CASE-99. Both lookups, the order brief and the case activity, returned \"No such case,\" and the error says retrying won't help. Please check the case number. If you have a different ID, send it and I'll look that one up."
+    },
+    {
+      "case": "h-other-store",
+      "run": 1,
+      "pass": true,
+      "grade": {
+        "reported": [
+          true
+        ],
+        "violated": [
+          false
+        ]
+      },
+      "calls": [
+        "get_order_brief",
+        "get_case_activity"
+      ],
+      "tokens": {
+        "input": 4059,
+        "output": 184
+      },
+      "answer": "I couldn't find CASE-99. Both lookups, the order brief and the case activity, returned \"No such case,\" and the system says retrying won't help. Could you check the case number? If you have a different ID, send it and I'll look that one up."
+    }
+  ]
+}

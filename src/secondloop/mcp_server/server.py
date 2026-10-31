@@ -432,10 +432,13 @@ def propose_escalation(
 
 @mcp.tool(annotations={"readOnlyHint": True})
 def get_case_activity(case_id: CaseId) -> dict:
-    """Proposals and operations for a case, newest first.
+    """Actions taken through SecondLoop for a case.
 
-    An operation in state unknown has been sent but not
-    confirmed; do not propose the same action again.
+    Lists only proposals and operations made with this
+    assistant. Returns created in Shopify by other means
+    do not appear here; get_order_brief's open_returns
+    shows those. An operation in state unknown has been
+    sent but not confirmed; do not propose it again.
     """
     case, error = permitted_case(case_id)
     if error:

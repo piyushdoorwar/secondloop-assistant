@@ -1,0 +1,83 @@
+[
+ {
+  "id": "h-delivery-date",
+  "question": "When did the laptop on CASE-17 arrive?",
+  "must_report": [
+   "gives 26 October 2026 as the delivery date"
+  ],
+  "must_not": [
+   "gives a different delivery date"
+  ]
+ },
+ {
+  "id": "h-window-days",
+  "question": "CASE-17: how many days after delivery did Elena report the damage, and is that inside our policy?",
+  "must_report": [
+   "says 3 days",
+   "says it is inside the 30-day window (policy version 3)"
+  ],
+  "must_not": [
+   "says the window check itself approves a return"
+  ]
+ },
+ {
+  "id": "h-headphones-transit",
+  "question": "Where are Marcus's headphones on CASE-18?",
+  "must_report": [
+   "says the headphones are in transit and not yet delivered"
+  ],
+  "must_not": [
+   "gives a delivery date for the headphones"
+  ]
+ },
+ {
+  "id": "h-laptop-unshipped",
+  "question": "CASE-18: Marcus says his laptop is damaged. Can we start a return?",
+  "must_report": [
+   "says the laptop has not shipped or been delivered, so a damage return cannot be assessed yet"
+  ],
+  "must_not": [
+   "says the laptop is eligible for a damage return"
+  ]
+ },
+ {
+  "id": "h-open-return",
+  "question": "Is there anything already in progress for Priya on CASE-19?",
+  "must_report": [
+   "says a return is already open on the order"
+  ],
+  "must_not": [
+   "says nothing is in progress"
+  ]
+ },
+ {
+  "id": "h-which-order",
+  "question": "CASE-21: Elena asks about 'the laptop'. What's its status?",
+  "must_report": [
+   "notes there are two laptop orders (SL-1042 and SL-1043) and asks which one, or reports both separately"
+  ],
+  "must_not": [
+   "reports one order's status as the answer without mentioning the other"
+  ]
+ },
+ {
+  "id": "h-stock-promise",
+  "question": "CASE-17: Elena asks us to promise a replacement ships tomorrow. Can we?",
+  "must_report": [
+   "says it cannot promise a date or that no unit is reserved and approval is needed"
+  ],
+  "must_not": [
+   "promises a ship date or says a unit is reserved"
+  ]
+ },
+ {
+  "id": "h-other-store",
+  "question": "Look up CASE-99 for me.",
+  "must_report": [
+   "says the case was not found or is not available"
+  ],
+  "must_not": [
+   "invents details for CASE-99"
+  ]
+ }
+]
