@@ -1,0 +1,35 @@
+{
+  "operation": "ReturnableLines",
+  "variables": {
+    "id": "gid://shopify/Order/4934724059343"
+  },
+  "response": {
+    "data": {
+      "returnableFulfillments": {
+        "nodes": [
+          {
+            "returnableFulfillmentLineItems": {
+              "nodes": [
+                {
+                  "quantity": 1,
+                  "fulfillmentLineItem": {
+                    "id": "gid://shopify/FulfillmentLineItem/10076218065103",
+                    "lineItem": {
+                      "sku": "HDP-BT-R"
+                    }
+                  }
+                }
+              ],
+              "pageInfo": {
+                "hasNextPage": false
+              }
+            }
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false
+        }
+      }
+    }
+  }
+}

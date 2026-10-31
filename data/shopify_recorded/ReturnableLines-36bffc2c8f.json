@@ -1,0 +1,44 @@
+{
+  "operation": "ReturnableLines",
+  "variables": {
+    "id": "gid://shopify/Order/4934721994959"
+  },
+  "response": {
+    "data": {
+      "returnableFulfillments": {
+        "nodes": [
+          {
+            "returnableFulfillmentLineItems": {
+              "nodes": [
+                {
+                  "quantity": 1,
+                  "fulfillmentLineItem": {
+                    "id": "gid://shopify/FulfillmentLineItem/10076217999567",
+                    "lineItem": {
+                      "sku": "LAP-14-R"
+                    }
+                  }
+                },
+                {
+                  "quantity": 1,
+                  "fulfillmentLineItem": {
+                    "id": "gid://shopify/FulfillmentLineItem/10076218032335",
+                    "lineItem": {
+                      "sku": "CHG-65-C"
+                    }
+                  }
+                }
+              ],
+              "pageInfo": {
+                "hasNextPage": false
+              }
+            }
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false
+        }
+      }
+    }
+  }
+}

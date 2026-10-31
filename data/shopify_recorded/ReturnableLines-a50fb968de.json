@@ -1,0 +1,35 @@
+{
+  "operation": "ReturnableLines",
+  "variables": {
+    "id": "gid://shopify/Order/4934724190415"
+  },
+  "response": {
+    "data": {
+      "returnableFulfillments": {
+        "nodes": [
+          {
+            "returnableFulfillmentLineItems": {
+              "nodes": [
+                {
+                  "quantity": 2,
+                  "fulfillmentLineItem": {
+                    "id": "gid://shopify/FulfillmentLineItem/10076218130639",
+                    "lineItem": {
+                      "sku": "CHG-65-C"
+                    }
+                  }
+                }
+              ],
+              "pageInfo": {
+                "hasNextPage": false
+              }
+            }
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false
+        }
+      }
+    }
+  }
+}

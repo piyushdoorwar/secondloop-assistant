@@ -15,6 +15,7 @@ from secondloop.identity import (
     authorize_case,
     current_principal,
 )
+from pydantic import Field as F
 from secondloop.mcp_server.auth import build_auth
 from secondloop.ops_client import (
     OpsError,
@@ -27,7 +28,15 @@ from secondloop.shopify.client import ShopifyError
 from secondloop.shopify.customers import read_candidates
 from secondloop.shopify.factory import admin_client
 from secondloop.shopify.orders import read_order_brief
+from secondloop.shopify.returns import (
+    Incomplete,
+    damage_reason_id,
+    returnable_lines,
+)
 from secondloop.shopify.shop import read_timezone
+from secondloop.slack import escape, operations_channel
+from secondloop.workflow import proposals
+from secondloop.workflow.db import connect
 
 mcp = FastMCP(
     "SecondLoop investigations",
@@ -287,6 +296,165 @@ async def check_return_window(
         sku=sku,
         **result.model_dump(),
     )
+
+
+@mcp.tool(
+    annotations={
+        "readOnlyHint": False,
+        "destructiveHint": False,
+        "idempotentHint": False,
+    }
+)
+def propose_return(
+    case_id: CaseId,
+    sku: str,
+    quantity: Annotated[int, F(ge=1, le=5)] = 1,
+) -> dict:
+    """Prepare a damage return for a second person to approve.
+
+    Creates a proposal only. Nothing changes in Shopify
+    until another employee approves this exact proposal
+    in the support console. Requires the return window
+    check to be eligible_for_proposal.
+    """
+    case, error = permitted_case(
+        case_id, "return_request"
+    )
+    if error:
+        return failure(error)
+    brief, error = case_brief(case)
+    if error:
+        return failure(error)
+    line = next(
+        (l for l in brief.lines if l.sku == sku), None
+    )
+    if line is None:
+        return failure("sku_not_on_order")
+    client = admin_client(case.shop)
+    try:
+        policy = anyio.from_thread.run(read_policy)
+        decision = assess(
+            policy,
+            line,
+            brief.open_returns,
+            case.reported_at,
+            read_timezone(client),
+        )
+        if decision.outcome != "eligible_for_proposal":
+            return failure(decision.outcome)
+        lines = returnable_lines(client, case.order_id)
+        reason = damage_reason_id(client)
+    except ShopifyError as error:
+        return failure(error.code)
+    except Incomplete:
+        return failure("returnable_list_incomplete")
+    match = next((l for l in lines if l.sku == sku), None)
+    if match is None or match.quantity < quantity:
+        return failure("quantity_not_returnable")
+    spec = {
+        "order_id": case.order_id,
+        "order_ref": case.order_ref,
+        "sku": sku,
+        "fulfillment_line_item_id": match.fulfillment_line_item_id,
+        "quantity": quantity,
+        "reason_definition_id": reason,
+        "policy_version": decision.policy_version,
+    }
+    with connect() as conn:
+        row = proposals.create(
+            conn,
+            "return",
+            case,
+            current_principal().subject,
+            spec,
+            decision.policy_version,
+        )
+    return ok(
+        proposal_id=row["id"],
+        state="pending_approval",
+        expires_at=row["expires_at"].isoformat(),
+        preview=(
+            f"Return {quantity} x {sku} from "
+            f"{case.order_ref} as damaged "
+            f"(policy v{decision.policy_version})."
+        ),
+    )
+
+
+@mcp.tool(
+    annotations={
+        "readOnlyHint": False,
+        "destructiveHint": False,
+        "idempotentHint": False,
+    }
+)
+def propose_escalation(
+    case_id: CaseId,
+    summary: Annotated[
+        str, F(min_length=1, max_length=400)
+    ],
+) -> dict:
+    """Prepare a note to the operations Slack channel.
+
+    The channel is fixed by SecondLoop. The note says
+    the case, the order and your summary; keep customer
+    personal details out of the summary. Posts only
+    after a second employee approves the exact text.
+    """
+    case, error = permitted_case(
+        case_id, "return_request"
+    )
+    if error:
+        return failure(error)
+    text = (
+        f"Replacement review: {case.case_id} "
+        f"({case.order_ref or 'no linked order'})\n"
+        f"Summary: {escape(summary)}"
+    )
+    spec = {"channel": operations_channel(), "text": text}
+    with connect() as conn:
+        row = proposals.create(
+            conn,
+            "escalation",
+            case,
+            current_principal().subject,
+            spec,
+        )
+    return ok(
+        proposal_id=row["id"],
+        state="pending_approval",
+        expires_at=row["expires_at"].isoformat(),
+        preview=text,
+    )
+
+
+@mcp.tool(annotations={"readOnlyHint": True})
+def get_case_activity(case_id: CaseId) -> dict:
+    """Proposals and operations for a case, newest first.
+
+    An operation in state unknown has been sent but not
+    confirmed; do not propose the same action again.
+    """
+    case, error = permitted_case(case_id)
+    if error:
+        return failure(error)
+    with connect() as conn:
+        rows = conn.execute(
+            """
+            SELECT p.id AS proposal_id, p.kind,
+                   p.state AS proposal_state,
+                   o.id AS operation_id,
+                   o.state AS operation_state,
+                   o.vendor_ref
+            FROM proposals p
+            LEFT JOIN operations o
+              ON o.proposal_id = p.id
+            WHERE p.case_id = %s
+            ORDER BY p.created_at DESC LIMIT 10
+            """,
+            (case_id,),
+        ).fetchall()
+    return ok(activity=rows)
 
 
 if __name__ == "__main__":

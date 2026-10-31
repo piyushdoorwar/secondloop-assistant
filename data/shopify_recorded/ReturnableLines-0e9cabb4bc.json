@@ -1,0 +1,16 @@
+{
+  "operation": "ReturnableLines",
+  "variables": {
+    "id": "gid://shopify/Order/4934724092111"
+  },
+  "response": {
+    "data": {
+      "returnableFulfillments": {
+        "nodes": [],
+        "pageInfo": {
+          "hasNextPage": false
+        }
+      }
+    }
+  }
+}

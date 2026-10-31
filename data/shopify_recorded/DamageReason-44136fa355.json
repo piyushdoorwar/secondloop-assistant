@@ -1,0 +1,16 @@
+{
+  "operation": "DamageReason",
+  "variables": {},
+  "response": {
+    "data": {
+      "returnReasonDefinitions": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ReturnReasonDefinition/6",
+            "handle": "damaged-or-defective"
+          }
+        ]
+      }
+    }
+  }
+}

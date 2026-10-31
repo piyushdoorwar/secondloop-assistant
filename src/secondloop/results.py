@@ -33,6 +33,33 @@ FAILURES = {
         False,
         "That SKU is not on the case's order.",
     ),
+    "eligible_for_proposal": (False, "Unexpected."),
+    "outside_window": (
+        False,
+        "The report is outside the policy window.",
+    ),
+    "no_delivery_record": (
+        False,
+        "No delivery is recorded for this line, so the "
+        "window cannot be checked.",
+    ),
+    "return_already_open": (
+        False,
+        "A return is already open on this order.",
+    ),
+    "report_before_delivery": (
+        False,
+        "The report predates delivery; a person must "
+        "check the case.",
+    ),
+    "returnable_list_incomplete": (
+        False,
+        "Too many returnable lines to check safely.",
+    ),
+    "quantity_not_returnable": (
+        False,
+        "That quantity is not returnable on this order.",
+    ),
     "cursor_invalid": (
         False,
         "The continuation token is not valid for this "

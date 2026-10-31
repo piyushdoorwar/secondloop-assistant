@@ -14,6 +14,10 @@ from secondloop.cases import load_cases
 from secondloop.shopify.factory import admin_client
 from secondloop.shopify.customers import CANDIDATE_ORDERS
 from secondloop.shopify.orders import ORDER_BRIEF
+from secondloop.shopify.returns import (
+    DAMAGE_REASON,
+    RETURNABLE_LINES,
+)
 from secondloop.shopify.shop import SHOP_TIMEZONE
 
 OUT = pathlib.Path("data/shopify_recorded")
@@ -69,15 +73,24 @@ if __name__ == "__main__":
         client = admin_client(case.shop)
         if case.shop not in shops:
             shops.add(case.shop)
-            path = record(
-                client, "ShopTimezone", SHOP_TIMEZONE, {}
-            )
-            print(case.shop, "->", path.name)
+            for name, doc in (
+                ("ShopTimezone", SHOP_TIMEZONE),
+                ("DamageReason", DAMAGE_REASON),
+            ):
+                path = record(client, name, doc, {})
+                print(case.shop, "->", path.name)
         if case.order_id:
             path = record(
                 client,
                 "OrderBrief",
                 ORDER_BRIEF,
+                {"id": case.order_id},
+            )
+            print(case.case_id, "->", path.name)
+            path = record(
+                client,
+                "ReturnableLines",
+                RETURNABLE_LINES,
                 {"id": case.order_id},
             )
             print(case.case_id, "->", path.name)

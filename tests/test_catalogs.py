@@ -28,18 +28,18 @@ async def test_route_maps_keep_only_public_reads():
     }
 
 
-async def test_curated_tools_are_marked_read_only():
+async def test_every_write_is_a_proposal():
     async with Client(catalogs()["curated"]) as client:
         tools = await client.list_tools()
-    assert {t.name for t in tools} == {
-        "get_order_brief",
-        "list_candidate_orders",
-        "get_replacement_context",
-        "check_return_window",
+    writes = {
+        t.name
+        for t in tools
+        if not t.annotations.read_only_hint
     }
-    assert all(
-        t.annotations.read_only_hint for t in tools
-    )
+    assert writes == {
+        "propose_return",
+        "propose_escalation",
+    }
 
 
 async def test_context_covers_only_the_case_skus(
