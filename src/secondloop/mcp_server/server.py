@@ -195,7 +195,7 @@ async def damage_policy(version: int) -> dict:
 
 @mcp.prompt
 def investigate_damage(case_id: str) -> str:
-    """Start a read-only damaged-delivery investigation."""
+    """Start a read-only investigation of damage."""
     return (
         f"Investigate support case {case_id}, a report "
         "of an item that arrived damaged.\n"
