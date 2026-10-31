@@ -44,7 +44,10 @@ async def run(
         if t.name in allowed
     ]
     offered = {t["name"] for t in tools}
-    messages = [{"role": "user", "content": question}]
+    if isinstance(question, str):
+        messages = [{"role": "user", "content": question}]
+    else:
+        messages = list(question)
     out = Transcript()
     for _ in range(budget.max_turns):
         reply = await model.respond(

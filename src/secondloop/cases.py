@@ -15,6 +15,7 @@ class Case(BaseModel):
     order_id: str | None
     order_ref: str | None
     customer_id: str | None = None
+    reported_at: str | None = None
 
 
 def load_cases(

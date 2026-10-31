@@ -35,6 +35,7 @@ async def test_curated_tools_are_marked_read_only():
         "get_order_brief",
         "list_candidate_orders",
         "get_replacement_context",
+        "check_return_window",
     }
     assert all(
         t.annotations.read_only_hint for t in tools

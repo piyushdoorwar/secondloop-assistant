@@ -14,6 +14,7 @@ from secondloop.cases import load_cases
 from secondloop.shopify.factory import admin_client
 from secondloop.shopify.customers import CANDIDATE_ORDERS
 from secondloop.shopify.orders import ORDER_BRIEF
+from secondloop.shopify.shop import SHOP_TIMEZONE
 
 OUT = pathlib.Path("data/shopify_recorded")
 
@@ -63,8 +64,15 @@ def record_candidates(client, case):
 
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
+    shops = set()
     for case in load_cases().values():
         client = admin_client(case.shop)
+        if case.shop not in shops:
+            shops.add(case.shop)
+            path = record(
+                client, "ShopTimezone", SHOP_TIMEZONE, {}
+            )
+            print(case.shop, "->", path.name)
         if case.order_id:
             path = record(
                 client,

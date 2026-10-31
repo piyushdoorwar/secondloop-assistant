@@ -29,6 +29,10 @@ FAILURES = {
         "The operations service did not answer.",
     ),
     "ops_not_found": (False, "Unknown policy or SKU."),
+    "sku_not_on_order": (
+        False,
+        "That SKU is not on the case's order.",
+    ),
     "cursor_invalid": (
         False,
         "The continuation token is not valid for this "

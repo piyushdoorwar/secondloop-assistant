@@ -16,6 +16,18 @@ app = FastAPI(
 )
 
 POLICIES = {
+    2: {
+        "policy_id": "damage",
+        "version": 2,
+        "effective_on": "2026-03-01",
+        "window_days": 14,
+        "window_starts": "delivery",
+        "approval_required": True,
+        "text": (
+            "Items that arrive damaged may be returned "
+            "within 14 days of delivery."
+        ),
+    },
     3: {
         "policy_id": "damage",
         "version": 3,
@@ -23,7 +35,15 @@ POLICIES = {
         "window_days": 30,
         "window_starts": "delivery",
         "approval_required": True,
-    }
+        "text": (
+            "Items that arrive damaged may be returned "
+            "within 30 calendar days of delivery, "
+            "counted in the store's time zone. A "
+            "replacement needs approval from a second "
+            "employee. Available stock is not a "
+            "reservation."
+        ),
+    },
 }
 CURRENT_POLICY = 3
 STOCK = {"LAP-14-R": 2, "CHG-65-C": 40, "HDP-BT-R": 6}

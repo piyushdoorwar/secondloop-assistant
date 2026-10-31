@@ -6,6 +6,7 @@ only operations it has a recording for.
 """
 
 import json
+import re
 import pathlib
 
 import httpx2 as httpx
@@ -44,9 +45,9 @@ def fake_transport() -> httpx.MockTransport:
                 },
             )
         body = json.loads(request.content)
-        operation = (
-            body["query"].split("(")[0].split()[-1]
-        )
+        operation = re.search(
+            r"(?:query|mutation)\s+(\w+)", body["query"]
+        ).group(1)
         key = (
             operation,
             json.dumps(body["variables"], sort_keys=True),

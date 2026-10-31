@@ -1,0 +1,35 @@
+{
+  "answer": "**CASE-17 (order SL-1042)**\n\n**Facts**\n- The order was placed 2026-10-23 and is fulfilled. It has no open returns.\n- Both lines were delivered on 2026-10-26 (America/New_York): LAP-14-R and CHG-65-C, one unit each.\n- The damage was reported on 2026-10-29, which is 3 days after delivery.\n- Both SKUs are `eligible_for_proposal` under the 30-day window. This means a return can be proposed for approval. It is not an approval.\n- Stock:\n  - LAP-14-R: 2 on hand, 2 available, no reservation for this case.\n  - CHG-65-C: 40 on hand, 40 available, no reservation for this case.\n\n**Policy used:** damage v3, effective 2026-10-01. It allows returns within 30 calendar days of delivery. A replacement needs approval from a second employee. Available stock is not a reservation.\n\n**Still unknown**\n- Which SKU is damaged. The case data doesn't say, so I checked both.\n- The nature and evidence of the damage, such as photos or a description.\n- Whether the customer wants a return, a replacement or a refund.\n- Who the second approver would be. No approval has been requested.\n\nI didn't reserve stock, promise a replacement or date, or create anything.",
+  "calls": [
+    [
+      "get_order_brief",
+      {
+        "case_id": "CASE-17"
+      }
+    ],
+    [
+      "get_replacement_context",
+      {
+        "case_id": "CASE-17"
+      }
+    ],
+    [
+      "check_return_window",
+      {
+        "case_id": "CASE-17",
+        "sku": "LAP-14-R"
+      }
+    ],
+    [
+      "check_return_window",
+      {
+        "case_id": "CASE-17",
+        "sku": "CHG-65-C"
+      }
+    ]
+  ],
+  "usage": {
+    "input": 6676,
+    "output": 885
+  }
+}

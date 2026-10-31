@@ -1,0 +1,11 @@
+{
+  "operation": "ShopTimezone",
+  "variables": {},
+  "response": {
+    "data": {
+      "shop": {
+        "ianaTimezone": "America/New_York"
+      }
+    }
+  }
+}

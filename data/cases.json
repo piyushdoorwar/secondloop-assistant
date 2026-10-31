@@ -5,7 +5,8 @@
     "shop": "secondloop-lab.myshopify.com",
     "order_id": "gid://shopify/Order/4934721994959",
     "order_ref": "SL-1042",
-    "customer_id": "gid://shopify/Customer/6989943996623"
+    "customer_id": "gid://shopify/Customer/6989943996623",
+    "reported_at": "2026-10-29T13:10:00Z"
   },
   {
     "case_id": "CASE-18",
@@ -13,7 +14,8 @@
     "shop": "secondloop-lab.myshopify.com",
     "order_id": "gid://shopify/Order/4934724059343",
     "order_ref": "SL-1044",
-    "customer_id": null
+    "customer_id": null,
+    "reported_at": "2026-10-30T14:00:00Z"
   },
   {
     "case_id": "CASE-19",
@@ -21,7 +23,8 @@
     "shop": "secondloop-lab.myshopify.com",
     "order_id": "gid://shopify/Order/4934724092111",
     "order_ref": "SL-1045",
-    "customer_id": null
+    "customer_id": null,
+    "reported_at": "2026-10-30T15:00:00Z"
   },
   {
     "case_id": "CASE-20",
@@ -29,7 +32,8 @@
     "shop": "secondloop-lab.myshopify.com",
     "order_id": "gid://shopify/Order/4934724190415",
     "order_ref": "SL-1046",
-    "customer_id": null
+    "customer_id": null,
+    "reported_at": "2026-10-29T16:30:00Z"
   },
   {
     "case_id": "CASE-21",
@@ -37,6 +41,7 @@
     "shop": "secondloop-lab.myshopify.com",
     "order_id": null,
     "order_ref": null,
-    "customer_id": "gid://shopify/Customer/6989943996623"
+    "customer_id": "gid://shopify/Customer/6989943996623",
+    "reported_at": "2026-10-30T12:00:00Z"
   }
 ]
