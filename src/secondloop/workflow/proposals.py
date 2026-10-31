@@ -99,11 +99,6 @@ def _decide(
         if p["state"] != "pending":
             raise Refused("proposal_not_pending")
         if p["expires_at"] <= datetime.now(timezone.utc):
-            conn.execute(
-                "UPDATE proposals SET state = 'expired' "
-                "WHERE id = %s",
-                (proposal_id,),
-            )
             raise Refused("proposal_expired")
         if "return_approve" not in approver.roles:
             raise Refused("approver_role_missing")
