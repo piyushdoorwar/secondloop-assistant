@@ -7,15 +7,12 @@ only operations it has a recording for.
 
 import json
 import re
-import pathlib
 
 import httpx2 as httpx
 
-RECORDED = (
-    pathlib.Path(__file__).parents[3]
-    / "data"
-    / "shopify_recorded"
-)
+from secondloop.paths import DATA
+
+RECORDED = DATA / "shopify_recorded"
 
 
 def _load() -> dict:

@@ -5,7 +5,7 @@ import pathlib
 
 from pydantic import BaseModel
 
-DATA = pathlib.Path(__file__).parents[2] / "data"
+from secondloop.paths import DATA
 
 
 class Case(BaseModel):

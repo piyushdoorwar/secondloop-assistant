@@ -1,14 +1,13 @@
 """PostgreSQL connections for workflow state."""
 
 import os
-import pathlib
 
 import psycopg
 from psycopg.rows import dict_row
 
-SCHEMA = (
-    pathlib.Path(__file__).parents[3] / "db/schema.sql"
-)
+from secondloop.paths import ROOT
+
+SCHEMA = ROOT / "db/schema.sql"
 DEFAULT_URL = (
     "postgresql://postgres@localhost:5432/secondloop"
 )
