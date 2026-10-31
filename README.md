@@ -35,8 +35,13 @@ Tests that call a real vendor or model are marked `live`:
 python -m pytest -m live
 ```
 
-Copy `.env.example` to `.env` for local settings. Never commit real
-credentials.
+Copy `.env.example` to `.env` for local settings and export it before
+running anything (`set -a; . ./.env; set +a`). Never commit real
+credentials. To check your accounts without printing any secret:
+
+```bash
+python -m scripts.check_setup
+```
 
 ## Recreate the lab store
 
@@ -54,6 +59,12 @@ SHOPIFY_MODE=live python scripts/record_shopify.py
 
 The scripts write the IDs your store assigns to `scripts/*.json`; update
 `data/cases.json` to point at your order IDs.
+
+## Appendices in the repository
+
+- `scripts/graphql_tour.py`: the raw GraphQL requests from Appendix B.
+- `MCP_PUBLIC_URL`: publishes OAuth protected resource metadata (Appendix C).
+- `scripts/check_setup.py`: the account check from Appendices D and E.
 
 ## Versions
 
