@@ -60,11 +60,7 @@ def test_service_refuses_a_second_replacement():
         "sku": "LAP-14-R",
         "quantity": 1,
     }
-    assert (
-        api.post("/replacements", json=body).status_code
-        == 201
-    )
-    assert (
-        api.post("/replacements", json=body).status_code
-        == 409
-    )
+    first = api.post("/replacements", json=body)
+    second = api.post("/replacements", json=body)
+    assert first.status_code == 201
+    assert second.status_code == 409
